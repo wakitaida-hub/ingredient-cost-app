@@ -82,7 +82,35 @@
     .convertGrid button{height:40px}
     @media(max-width:900px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr 1fr}header{position:static}.modeBox{grid-template-columns:1fr}.convertGrid{grid-template-columns:1fr}}
     @media(max-width:560px){main{padding:10px}.row{grid-template-columns:1fr}.card{padding:12px}h1{font-size:16px}table{min-width:720px}.recipeTitle{grid-template-columns:1fr}.toolbar button,.toolbar label{width:100%;justify-content:center}}
-  </style>
+  
+    /* Mobile accessibility improvements */
+    @media(max-width:900px){
+      body{font-size:18px}
+      label{font-size:15px;margin-bottom:8px}
+      input,select,textarea,button{font-size:18px !important;min-height:52px}
+      .modeBtn b{font-size:18px}
+      .modeBtn span,.small,.sub{font-size:15px}
+      .sumLine{font-size:18px}
+      .toolbar{display:grid;grid-template-columns:1fr;gap:10px}
+      .toolbar button,.toolbar label{width:100%}
+    }
+    @media(max-width:560px){
+      h1{font-size:22px}
+      h2{font-size:20px}
+      h3{font-size:18px}
+      main{padding:8px}
+      .card{padding:16px}
+      .row{grid-template-columns:1fr !important;gap:14px}
+      .grid{grid-template-columns:1fr}
+      .convertGrid{grid-template-columns:1fr !important}
+      .recipeTitle{grid-template-columns:1fr}
+      .tabs{gap:12px}
+      .tab{font-size:17px;padding:12px 16px}
+      .notice{font-size:16px}
+      table{min-width:900px}
+    }
+
+</style>
 </head>
 <body>
 <header>
