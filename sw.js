@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ingredient-cost-app-v23-clean-public';
+const CACHE_NAME = 'ingredient-cost-app-v26-compact-no-slide';
 const ASSETS = [
   './index.html',
   './manifest.json',

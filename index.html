@@ -8,11 +8,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="原材料計算">
-  <link rel="manifest" href="manifest.json?v=23">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=23">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=23">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=23">
-  <title>原材料・割合・数量・利益 原価計算アプリ v23</title>
+  <link rel="manifest" href="manifest.json?v=26">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=26">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=26">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=26">
+  <title>原材料・割合・数量・利益 原価計算アプリ v26</title>
   <style>
     :root{
       --bg:#f4f6f8;--card:#fff;--ink:#1f2937;--muted:#6b7280;--line:#d7dde5;
@@ -83,38 +83,99 @@
     @media(max-width:900px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr 1fr}header{position:static}.modeBox{grid-template-columns:1fr}.convertGrid{grid-template-columns:1fr}}
     @media(max-width:560px){main{padding:10px}.row{grid-template-columns:1fr}.card{padding:12px}h1{font-size:16px}table{min-width:720px}.recipeTitle{grid-template-columns:1fr}.toolbar button,.toolbar label{width:100%;justify-content:center}}
   
-    /* Mobile accessibility improvements */
-    @media(max-width:900px){
-      body{font-size:18px}
-      label{font-size:15px;margin-bottom:8px}
-      input,select,textarea,button{font-size:18px !important;min-height:52px}
+
+    /* v25 スマホ縦レイアウト版：横に広がる表をカード表示に変更 */
+    @media(max-width:700px){
+      body{background:#f8fafc}
+      header{display:none}
+      main{width:100%;max-width:430px;margin:0 auto;padding:8px 8px 88px}
+      .tabs{gap:6px;padding:6px 0 8px}
+      .tab{font-size:16px;padding:10px 12px}
+      .grid{display:block}
+      .card{padding:12px;border-radius:14px;margin-bottom:10px;box-shadow:none}
+      .modeBox{gap:8px;margin:8px 0}
+      .modeBtn{padding:13px 12px}
       .modeBtn b{font-size:18px}
-      .modeBtn span,.small,.sub{font-size:15px}
-      .sumLine{font-size:18px}
-      .toolbar{display:grid;grid-template-columns:1fr;gap:10px}
-      .toolbar button,.toolbar label{width:100%}
-    }
-    @media(max-width:560px){
-      h1{font-size:22px}
-      h2{font-size:20px}
-      h3{font-size:18px}
-      main{padding:8px}
-      .card{padding:16px}
-      .row{grid-template-columns:1fr !important;gap:14px}
-      .grid{grid-template-columns:1fr}
-      .convertGrid{grid-template-columns:1fr !important}
-      .recipeTitle{grid-template-columns:1fr}
-      .tabs{gap:12px}
-      .tab{font-size:17px;padding:12px 16px}
-      .notice{font-size:16px}
-      table{min-width:900px}
+      .modeBtn span{font-size:15px}
+      .notice{font-size:16px;padding:12px;margin:8px 0}
+      .row{display:block;margin-bottom:0}
+      .row > div{margin-bottom:10px}
+      label{font-size:16px;margin-bottom:5px}
+      input,select,textarea{font-size:18px;min-height:48px;padding:10px 12px;border-radius:10px}
+      button{font-size:17px;min-height:50px;padding:12px 14px}
+      .toolbar{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
+      .toolbar button,.toolbar label{width:100%;min-height:50px;text-align:center;justify-content:center}
+      .convertGrid{display:block}
+      .convertGrid > div{margin-bottom:10px}
+      .tableWrap{overflow:visible;border:0;border-radius:0;background:transparent}
+      table,thead,tbody,tr,td{display:block;width:100%}
+      table{min-width:0;background:transparent;border-collapse:separate;border-spacing:0}
+      thead{display:none}
+      tbody tr{background:#fff;border:1px solid #d7dde5;border-radius:14px;margin:0 0 12px;padding:10px;box-shadow:0 1px 4px rgba(15,23,42,.06)}
+      tbody td{border:0;padding:7px 0;display:grid;grid-template-columns:88px minmax(0,1fr);gap:8px;align-items:center}
+      tbody td::before{content:attr(data-label);font-size:14px;font-weight:bold;color:#475569;line-height:1.25}
+      tbody td:first-child{display:flex;gap:8px;align-items:center;font-weight:bold;color:#1e40af;padding-bottom:8px;border-bottom:1px solid #e5e7eb;margin-bottom:4px}
+      tbody td:first-child::before{content:'原材料';font-size:14px;color:#475569}
+      tbody td input{min-height:46px;font-size:18px;padding:9px 10px;width:100%}
+      .costCell{font-size:19px;text-align:right;color:#111827;background:#f8fafc;border-radius:10px;padding:10px!important}
+      .costCell::before{text-align:left}
+      td[data-label="削除"] .miniBtn{width:100%;font-size:17px;min-height:46px}
+      .summary{gap:4px}
+      .sumLine{display:grid;grid-template-columns:1fr auto;gap:8px;font-size:17px;padding:9px 0}
+      .big,.profitBox{padding:12px;margin-top:8px}
     }
 
-</style>
+
+    /* v26 スマホ完全コンパクト版：横スライド防止＋画面内に収める */
+    @media(max-width:700px){
+      html,body{width:100%;max-width:100%;overflow-x:hidden!important}
+      *{max-width:100%}
+      body{font-size:15px;background:#fff}
+      main{width:100vw!important;max-width:none!important;margin:0!important;padding:6px 6px 72px!important;overflow-x:hidden!important}
+      .card{width:100%;padding:8px!important;margin:0 0 8px!important;border-radius:10px!important;border-left:0;border-right:0}
+      h2{font-size:17px;margin-bottom:8px}
+      h3{font-size:15px;margin:10px 0 6px}
+      .tabs{display:grid;grid-template-columns:1fr;gap:5px;overflow:visible;padding:5px 0 7px}
+      .tab{width:100%;font-size:15px;padding:9px 8px;border-radius:9px;text-align:center;white-space:normal;line-height:1.25}
+      .modeBox{display:grid!important;grid-template-columns:1fr!important;gap:6px!important;margin:6px 0!important}
+      .modeBtn{padding:10px!important;border-radius:10px!important}
+      .modeBtn b{font-size:16px!important;margin-bottom:2px!important}
+      .modeBtn span{font-size:13px!important;line-height:1.35!important}
+      .notice{font-size:14px!important;line-height:1.45!important;padding:8px!important;margin:6px 0!important;border-radius:10px!important}
+      .small{font-size:13px!important;line-height:1.4!important}
+      label{font-size:14px!important;margin-bottom:4px!important;line-height:1.25!important}
+      input,select,textarea{font-size:16px!important;min-height:42px!important;height:auto!important;padding:8px 9px!important;border-radius:8px!important;width:100%!important}
+      button{font-size:15px!important;min-height:43px!important;padding:9px 10px!important;border-radius:8px!important;width:100%}
+      .row{display:block!important;margin:0!important}
+      .row > div{margin-bottom:7px!important;width:100%!important}
+      .recipeTitle{display:block!important}
+      .recipeTitle > div{margin-bottom:7px!important}
+      .toolbar{display:grid!important;grid-template-columns:1fr!important;gap:6px!important;margin:8px 0!important}
+      .convertGrid{display:block!important}
+      .convertGrid > div{margin-bottom:7px!important}
+      .big,.profitBox{padding:8px!important;margin-top:6px!important;border-radius:10px!important}
+      .summary{gap:2px!important}
+      .sumLine{font-size:15px!important;padding:6px 0!important;grid-template-columns:minmax(0,1fr) auto!important}
+      .tableWrap{width:100%!important;overflow:hidden!important;border:0!important;border-radius:0!important}
+      table{width:100%!important;min-width:0!important;max-width:100%!important;table-layout:fixed!important}
+      thead{display:none!important}
+      table,tbody,tr,td{display:block!important;width:100%!important;max-width:100%!important}
+      tbody tr{padding:8px!important;margin:0 0 9px!important;border-radius:10px!important;overflow:hidden!important}
+      tbody td{display:grid!important;grid-template-columns:78px minmax(0,1fr)!important;gap:6px!important;align-items:center!important;padding:5px 0!important;min-width:0!important}
+      tbody td::before{font-size:13px!important;white-space:normal!important;line-height:1.2!important;word-break:keep-all!important}
+      tbody td:first-child{display:grid!important;grid-template-columns:78px minmax(0,1fr)!important;font-size:15px!important;padding:5px 0 7px!important}
+      tbody td input{font-size:16px!important;min-height:40px!important;padding:7px 8px!important;min-width:0!important}
+      .costCell{font-size:16px!important;padding:8px!important;min-width:0!important;word-break:break-word!important}
+      td[data-label="削除"] .miniBtn{font-size:15px!important;min-height:40px!important;width:100%!important;padding:7px!important}
+      .num{text-align:right!important}
+      .footer{font-size:11px;padding:10px}
+    }
+
+  </style>
 </head>
 <body>
 <header>
-  <h1>原材料・割合・数量・利益 原価計算アプリ v23</h1>
+  <h1>原材料・割合・数量・利益 原価計算アプリ v26</h1>
   <div class="sub">割合→数量、数量→割合、既存割合→数量変換、利益率から販売価格計算、CSV出力、バックアップ保存に対応。</div>
 </header>
 
@@ -537,13 +598,13 @@
     const qtyReadonly = recipe.mode !== 'qty';
     $('ingredientRows').innerHTML = recipe.ingredients.map((ing,i)=>`
       <tr>
-        <td>${i+1}</td>
-        <td><input data-field="name" data-i="${i}" value="${escapeAttr(ing.name)}" placeholder="原材料名"></td>
-        <td><input class="num" inputmode="decimal" data-field="unitPrice" data-i="${i}" value="${escapeAttr(ing.unitPrice)}" placeholder="€/kg"></td>
-        <td><input class="num" inputmode="decimal" data-field="pct" data-i="${i}" value="${escapeAttr(ing.pct)}" placeholder="%" ${pctReadonly?'readonly':''}></td>
-        <td><input class="num" inputmode="decimal" data-field="qty" data-i="${i}" value="${escapeAttr(ing.qty)}" placeholder="kg" ${qtyReadonly?'readonly':''}></td>
-        <td class="costCell" id="cost-${i}">0</td>
-        <td><button class="danger miniBtn" data-del="${i}" type="button">削除</button></td>
+        <td data-label="No.">${i+1}</td>
+        <td data-label="原材料名"><input data-field="name" data-i="${i}" value="${escapeAttr(ing.name)}" placeholder="原材料名"></td>
+        <td data-label="単価 / kg"><input class="num" inputmode="decimal" data-field="unitPrice" data-i="${i}" value="${escapeAttr(ing.unitPrice)}" placeholder="€/kg"></td>
+        <td data-label="割合 %"><input class="num" inputmode="decimal" data-field="pct" data-i="${i}" value="${escapeAttr(ing.pct)}" placeholder="%" ${pctReadonly?'readonly':''}></td>
+        <td data-label="数量 kg"><input class="num" inputmode="decimal" data-field="qty" data-i="${i}" value="${escapeAttr(ing.qty)}" placeholder="kg" ${qtyReadonly?'readonly':''}></td>
+        <td data-label="原材料費" class="costCell" id="cost-${i}">0</td>
+        <td data-label="削除"><button class="danger miniBtn" data-del="${i}" type="button">削除</button></td>
       </tr>`).join('');
 
     document.querySelectorAll('#ingredientRows input').forEach(inp=>{
@@ -881,7 +942,7 @@
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('./sw.js?v=20').then(function(reg){ reg.update(); }).catch(function () {});
+      navigator.serviceWorker.register('./sw.js?v=26').then(function(reg){ reg.update(); }).catch(function () {});
     });
   }
 </script>
