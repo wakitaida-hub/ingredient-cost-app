@@ -8,11 +8,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="原材料計算">
-  <link rel="manifest" href="manifest.json?v=27-copy-select">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=27-copy-select">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=27-copy-select">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=27-copy-select">
-  <title>原材料・割合・数量・利益 原価計算アプリ v27</title>
+  <link rel="manifest" href="manifest.json?v=28-mobile-readable">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=28-mobile-readable">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=28-mobile-readable">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=28-mobile-readable">
+  <title>原材料・割合・数量・利益 原価計算アプリ v28</title>
   <style>
     :root{
       --bg:#f4f6f8;--card:#fff;--ink:#1f2937;--muted:#6b7280;--line:#d7dde5;
@@ -48,12 +48,30 @@
     .status{min-height:22px;font-size:13px;font-weight:bold;margin-top:6px;color:#166534}.status.err{color:#991b1b}.backupBox{margin-top:10px}.backupBox textarea{font-size:12px;line-height:1.35;min-height:120px;background:#f8fafc}
     .convertPanel{background:#eff6ff;border:1px solid #93c5fd;color:#1e3a8a}.convertGrid{display:grid;grid-template-columns:1.2fr 1fr .9fr;gap:8px;align-items:end}
     @media(max-width:900px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr 1fr}header{position:static}.modeBox{grid-template-columns:1fr}.convertGrid{grid-template-columns:1fr}}
-    @media(max-width:560px){main{padding:10px}.row{grid-template-columns:1fr}.card{padding:12px}h1{font-size:16px}table{min-width:720px}.recipeTitle{grid-template-columns:1fr}.toolbar button,.toolbar label,.copySelect{width:100%;justify-content:center}.copySelect{min-width:0}}
+    @media(max-width:560px){
+      body{font-size:15px}
+      header{padding:10px 12px}
+      h1{font-size:15px;margin-bottom:5px}.sub{font-size:11px}
+      main{padding:8px}.tabs{gap:6px;padding:8px 0 10px}.tab{padding:8px 10px;font-size:13px}
+      .card{padding:10px;border-radius:12px}.row{grid-template-columns:1fr;gap:8px;margin-bottom:8px}
+      input,select,button,textarea{font-size:16px}label{font-size:12px}.recipeTitle{grid-template-columns:1fr}
+      .modeBtn{padding:10px}.modeBtn span{font-size:11px}.notice{font-size:12px;padding:9px}
+      .toolbar{gap:7px}.toolbar button,.toolbar label,.copySelect{width:100%;justify-content:center}.copySelect{min-width:0}
+      .tableWrap{overflow:visible;border:0;border-radius:0;background:transparent}
+      table{display:block;width:100%;min-width:0;background:transparent}
+      thead{display:none}tbody{display:block;width:100%}
+      tr{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;margin:10px 0;padding:8px;box-shadow:0 1px 4px rgba(15,23,42,.05)}
+      td{display:grid;grid-template-columns:88px minmax(0,1fr);gap:8px;align-items:center;border-bottom:1px solid #edf2f7;padding:7px 2px;font-size:14px}
+      td:last-child{border-bottom:0}td::before{font-size:12px;font-weight:bold;color:#475569;line-height:1.2}
+      td:nth-child(1)::before{content:'No.'}td:nth-child(2)::before{content:'原材料名'}td:nth-child(3)::before{content:'単価 / kg'}td:nth-child(4)::before{content:'割合 %'}td:nth-child(5)::before{content:'数量 kg'}td:nth-child(6)::before{content:'原材料費'}td:nth-child(7)::before{content:'削除'}
+      td input{min-width:0;width:100%;padding:9px}.costCell{text-align:left}.miniBtn{width:100%;font-size:14px;padding:9px}
+      .sumLine{font-size:14px}.footer{font-size:11px;padding:14px 8px}
+    }
   </style>
 </head>
 <body>
 <header>
-  <h1>原材料・割合・数量・利益 原価計算アプリ v27</h1>
+  <h1>原材料・割合・数量・利益 原価計算アプリ v28</h1>
   <div class="sub">割合→数量、数量→割合、既存割合→数量変換、利益率から販売価格計算、CSV出力、バックアップ保存に対応。</div>
 </header>
 <main>
@@ -115,7 +133,7 @@
     </aside>
   </div>
 </main>
-<div class="footer">v27 / 公開用空データ版 / レシピ1のコピー先選択 / 選択原材料数量変換 / CSV・JSONバックアップ対応</div>
+<div class="footer">v28 / スマホ見やすさ改善 / レシピ1のコピー先選択 / 選択原材料数量変換 / CSV・JSONバックアップ対応</div>
 <script>
 (function(){
   const STORAGE_KEY = 'atom_ingredient_cost_app_v22_clean_public';
@@ -172,16 +190,16 @@
   $('convertIngredientSelect').addEventListener('change',e=>{ const idx=+e.target.value||0; const recipe=r(); recipe.convertIngredientIndex=idx; recipe.convertIngredientQty=(recipe.ingredients[idx]||{}).qty||''; setConvertFromIngredientQty(idx,recipe.convertIngredientQty,false); calculate(true); });
   $('convertIngredientQty').addEventListener('input',e=>{ setConvertFromIngredientQty(+r().convertIngredientIndex||0,e.target.value,true); calculate(true); });
   $('convertIngredientQty').addEventListener('change',e=>{ setConvertFromIngredientQty(+r().convertIngredientIndex||0,e.target.value,true); calculate(true); });
-  function buildBackup(){ return {app:'ingredient-cost-app',version:27,savedAt:new Date().toISOString(),recipes}; }
+  function buildBackup(){ return {app:'ingredient-cost-app',version:28,savedAt:new Date().toISOString(),recipes}; }
   $('exportCsvBtn').onclick=async()=>{ calculate(true); const csv=toCsv(makeCsvForRecipe(r(),current)); showTextBox('CSV内容（ダウンロードできない場合はコピーして保存）',csv.replace(/^\uFEFF/,''),`ingredient_recipe_R${current+1}.csv`,'text/csv;charset=utf-8'); await saveFile(csv,`ingredient_recipe_R${current+1}.csv`,'text/csv;charset=utf-8'); };
   $('exportAllCsvBtn').onclick=async()=>{ calculate(true); const csv=makeAllCsv(); showTextBox('全レシピCSV内容（ダウンロードできない場合はコピーして保存）',csv.replace(/^\uFEFF/,''),'ingredient_recipes_all.csv','text/csv;charset=utf-8'); await saveFile(csv,'ingredient_recipes_all.csv','text/csv;charset=utf-8'); };
-  $('downloadJsonBtn').onclick=async()=>{ save(); const text=JSON.stringify(buildBackup(),null,2); showTextBox('バックアップコード（ダウンロードできない場合はコピーして保存）',text,'ingredient_app_backup_v27.json','application/json;charset=utf-8'); await saveFile(text,'ingredient_app_backup_v27.json','application/json;charset=utf-8'); };
+  $('downloadJsonBtn').onclick=async()=>{ save(); const text=JSON.stringify(buildBackup(),null,2); showTextBox('バックアップコード（ダウンロードできない場合はコピーして保存）',text,'ingredient_app_backup_v28.json','application/json;charset=utf-8'); await saveFile(text,'ingredient_app_backup_v28.json','application/json;charset=utf-8'); };
   $('importJsonInput').addEventListener('change',e=>{ const file=e.target.files[0]; if(!file) return; const reader=new FileReader(); reader.onload=()=>{ try{ const data=JSON.parse(reader.result); const arr=Array.isArray(data)?data:data.recipes; if(!Array.isArray(arr)) throw new Error('形式が違います'); recipes=Array.from({length:recipeCount},(_,i)=>normalizeRecipe(arr[i],i)); current=0; save(); render(); setStatus('バックアップを読み込みました。'); }catch(err){ alert('読み込めませんでした。JSON形式を確認してください。'); setStatus('バックアップ読込に失敗しました。',true); } e.target.value=''; }; reader.readAsText(file); });
   render(); save();
 })();
 </script>
 <script>
-  if('serviceWorker' in navigator){ window.addEventListener('load',function(){ navigator.serviceWorker.register('./sw.js?v=27-copy-select').then(function(reg){ reg.update(); }).catch(function(){}); }); }
+  if('serviceWorker' in navigator){ window.addEventListener('load',function(){ navigator.serviceWorker.register('./sw.js?v=28-mobile-readable').then(function(reg){ reg.update(); }).catch(function(){}); }); }
 </script>
 </body>
 </html>

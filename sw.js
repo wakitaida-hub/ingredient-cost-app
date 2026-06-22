@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ingredient-cost-app-v27-copy-select';
+const CACHE_NAME = 'ingredient-cost-app-v28-mobile-readable';
 const ASSETS = [
   './index.html',
   './manifest.json',
