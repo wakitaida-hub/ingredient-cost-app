@@ -8,11 +8,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="原材料計算">
-  <link rel="manifest" href="manifest.json?v=26">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=26">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=26">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=26">
-  <title>原材料・割合・数量・利益 原価計算アプリ v26</title>
+  <link rel="manifest" href="manifest.json?v=27-copy-select">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=27-copy-select">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=27-copy-select">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=27-copy-select">
+  <title>原材料・割合・数量・利益 原価計算アプリ v27</title>
   <style>
     :root{
       --bg:#f4f6f8;--card:#fff;--ink:#1f2937;--muted:#6b7280;--line:#d7dde5;
@@ -22,929 +22,166 @@
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);font-family:Arial,"Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;color:var(--ink)}
     header{position:sticky;top:0;z-index:10;background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;padding:14px 14px 12px;box-shadow:0 2px 10px rgba(0,0,0,.18)}
-    h1{font-size:18px;margin:0 0 8px}
-    .sub{font-size:12px;opacity:.92;line-height:1.45}
-    main{max-width:1180px;margin:0 auto;padding:14px}
-    .tabs{display:flex;gap:8px;overflow:auto;padding:10px 0 12px}
+    h1{font-size:18px;margin:0 0 8px}.sub{font-size:12px;opacity:.92;line-height:1.45}
+    main{max-width:1180px;margin:0 auto;padding:14px}.tabs{display:flex;gap:8px;overflow:auto;padding:10px 0 12px}
     .tab{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;font-weight:bold;color:#334155;cursor:pointer}
-    .tab.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
-    .grid{display:grid;grid-template-columns:1.4fr .9fr;gap:14px}
+    .tab.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8}.grid{display:grid;grid-template-columns:1.4fr .9fr;gap:14px}
     .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 2px 8px rgba(15,23,42,.06)}
-    h2{font-size:16px;margin:0 0 12px;color:#0f172a}
-    h3{font-size:14px;margin:14px 0 8px;color:#334155}
+    h2{font-size:16px;margin:0 0 12px;color:#0f172a}h3{font-size:14px;margin:14px 0 8px;color:#334155}
     label{display:block;font-size:12px;color:#374151;font-weight:bold;margin:0 0 5px}
-    input,select,button,textarea{font-family:inherit;font-size:14px}
-    input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:9px;padding:9px;background:#fff}
-    input[readonly]{background:#f8fafc;color:#475569}
-    textarea{resize:vertical}
-    .row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px}
-    .modeBox{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
-    .modeBtn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px;text-align:left;cursor:pointer}
-    .modeBtn b{display:block;font-size:14px;margin-bottom:4px}
-    .modeBtn span{display:block;font-size:12px;color:var(--muted);line-height:1.3}
+    input,select,button,textarea{font-family:inherit;font-size:14px}input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:9px;padding:9px;background:#fff}
+    input[readonly]{background:#f8fafc;color:#475569}textarea{resize:vertical}.row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px}
+    .modeBox{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.modeBtn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px;text-align:left;cursor:pointer}
+    .modeBtn b{display:block;font-size:14px;margin-bottom:4px}.modeBtn span{display:block;font-size:12px;color:var(--muted);line-height:1.3}
     .modeBtn.active{border-color:var(--blue);background:var(--soft);box-shadow:0 0 0 2px rgba(37,99,235,.15) inset}
-    .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-    button{border:0;border-radius:10px;padding:10px 12px;font-weight:bold;cursor:pointer}
-    .primary{background:var(--blue);color:#fff}
-    .primary:hover{background:var(--blue2)}
-    .ok{background:var(--green);color:#fff}
-    .danger{background:var(--red);color:#fff}
-    .light{background:#e5e7eb;color:#111827}
-    .miniBtn{padding:6px 8px;border-radius:8px;font-size:12px}
-    .tableWrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
-    table{width:100%;border-collapse:collapse;min-width:780px;background:#fff}
-    th,td{border-bottom:1px solid #e5e7eb;padding:8px;text-align:left;vertical-align:middle}
-    th{background:#f8fafc;font-size:12px;color:#334155;position:sticky;top:0}
-    td input{padding:8px;border-radius:8px}
-    .num{text-align:right}
-    .costCell{text-align:right;font-variant-numeric:tabular-nums;font-weight:bold;color:#0f172a}
-    .summary{display:grid;gap:8px}
-    .sumLine{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed #d1d5db;padding:8px 0}
-    .sumLine b:last-child{font-variant-numeric:tabular-nums;text-align:right}
-    .big{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:12px;margin-top:8px}
-    .profitBox{background:#ecfdf5;border:1px solid #86efac;border-radius:12px;padding:12px;margin-top:8px}
-    .big .sumLine{border-color:#bfdbfe}.profitBox .sumLine{border-color:#86efac}
-    .notice{font-size:13px;line-height:1.55;border-radius:12px;padding:10px;margin:10px 0}
-    .notice.info{background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a}
-    .notice.warn{background:#fffbeb;border:1px solid #fcd34d;color:#92400e}
-    .notice.okmsg{background:#ecfdf5;border:1px solid #86efac;color:#166534}
-    .notice.err{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
-    .small{font-size:12px;color:var(--muted);line-height:1.45}
-    .recipeTitle{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}
-    .hidden{display:none}
-    .footer{font-size:12px;color:#6b7280;text-align:center;padding:18px}
-    .status{min-height:22px;font-size:13px;font-weight:bold;margin-top:6px;color:#166534}
-    .status.err{color:#991b1b}
-    .backupBox{margin-top:10px}
-    .backupBox textarea{font-size:12px;line-height:1.35;min-height:120px;background:#f8fafc}
-    .convertPanel{background:#eff6ff;border:1px solid #93c5fd;color:#1e3a8a}
-    .convertGrid{display:grid;grid-template-columns:1.2fr 1fr .9fr;gap:8px;align-items:end}
-    .convertGrid button{height:40px}
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;align-items:center}button{border:0;border-radius:10px;padding:10px 12px;font-weight:bold;cursor:pointer}
+    .primary{background:var(--blue);color:#fff}.primary:hover{background:var(--blue2)}.ok{background:var(--green);color:#fff}.danger{background:var(--red);color:#fff}.light{background:#e5e7eb;color:#111827}
+    .miniBtn{padding:6px 8px;border-radius:8px;font-size:12px}.copySelect{width:auto;min-width:185px;flex:0 0 auto}
+    .tableWrap{overflow:auto;border:1px solid var(--line);border-radius:12px}table{width:100%;border-collapse:collapse;min-width:780px;background:#fff}
+    th,td{border-bottom:1px solid #e5e7eb;padding:8px;text-align:left;vertical-align:middle}th{background:#f8fafc;font-size:12px;color:#334155;position:sticky;top:0}td input{padding:8px;border-radius:8px}
+    .num{text-align:right}.costCell{text-align:right;font-variant-numeric:tabular-nums;font-weight:bold;color:#0f172a}.summary{display:grid;gap:8px}
+    .sumLine{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed #d1d5db;padding:8px 0}.sumLine b:last-child{font-variant-numeric:tabular-nums;text-align:right}
+    .big{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:12px;margin-top:8px}.profitBox{background:#ecfdf5;border:1px solid #86efac;border-radius:12px;padding:12px;margin-top:8px}
+    .big .sumLine{border-color:#bfdbfe}.profitBox .sumLine{border-color:#86efac}.notice{font-size:13px;line-height:1.55;border-radius:12px;padding:10px;margin:10px 0}
+    .notice.info{background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a}.notice.warn{background:#fffbeb;border:1px solid #fcd34d;color:#92400e}.notice.okmsg{background:#ecfdf5;border:1px solid #86efac;color:#166534}.notice.err{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
+    .small{font-size:12px;color:var(--muted);line-height:1.45}.recipeTitle{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}.hidden{display:none}.footer{font-size:12px;color:#6b7280;text-align:center;padding:18px}
+    .status{min-height:22px;font-size:13px;font-weight:bold;margin-top:6px;color:#166534}.status.err{color:#991b1b}.backupBox{margin-top:10px}.backupBox textarea{font-size:12px;line-height:1.35;min-height:120px;background:#f8fafc}
+    .convertPanel{background:#eff6ff;border:1px solid #93c5fd;color:#1e3a8a}.convertGrid{display:grid;grid-template-columns:1.2fr 1fr .9fr;gap:8px;align-items:end}
     @media(max-width:900px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr 1fr}header{position:static}.modeBox{grid-template-columns:1fr}.convertGrid{grid-template-columns:1fr}}
-    @media(max-width:560px){main{padding:10px}.row{grid-template-columns:1fr}.card{padding:12px}h1{font-size:16px}table{min-width:720px}.recipeTitle{grid-template-columns:1fr}.toolbar button,.toolbar label{width:100%;justify-content:center}}
-  
-
-    /* v25 スマホ縦レイアウト版：横に広がる表をカード表示に変更 */
-    @media(max-width:700px){
-      body{background:#f8fafc}
-      header{display:none}
-      main{width:100%;max-width:430px;margin:0 auto;padding:8px 8px 88px}
-      .tabs{gap:6px;padding:6px 0 8px}
-      .tab{font-size:16px;padding:10px 12px}
-      .grid{display:block}
-      .card{padding:12px;border-radius:14px;margin-bottom:10px;box-shadow:none}
-      .modeBox{gap:8px;margin:8px 0}
-      .modeBtn{padding:13px 12px}
-      .modeBtn b{font-size:18px}
-      .modeBtn span{font-size:15px}
-      .notice{font-size:16px;padding:12px;margin:8px 0}
-      .row{display:block;margin-bottom:0}
-      .row > div{margin-bottom:10px}
-      label{font-size:16px;margin-bottom:5px}
-      input,select,textarea{font-size:18px;min-height:48px;padding:10px 12px;border-radius:10px}
-      button{font-size:17px;min-height:50px;padding:12px 14px}
-      .toolbar{display:grid;grid-template-columns:1fr;gap:8px;margin:10px 0}
-      .toolbar button,.toolbar label{width:100%;min-height:50px;text-align:center;justify-content:center}
-      .convertGrid{display:block}
-      .convertGrid > div{margin-bottom:10px}
-      .tableWrap{overflow:visible;border:0;border-radius:0;background:transparent}
-      table,thead,tbody,tr,td{display:block;width:100%}
-      table{min-width:0;background:transparent;border-collapse:separate;border-spacing:0}
-      thead{display:none}
-      tbody tr{background:#fff;border:1px solid #d7dde5;border-radius:14px;margin:0 0 12px;padding:10px;box-shadow:0 1px 4px rgba(15,23,42,.06)}
-      tbody td{border:0;padding:7px 0;display:grid;grid-template-columns:88px minmax(0,1fr);gap:8px;align-items:center}
-      tbody td::before{content:attr(data-label);font-size:14px;font-weight:bold;color:#475569;line-height:1.25}
-      tbody td:first-child{display:flex;gap:8px;align-items:center;font-weight:bold;color:#1e40af;padding-bottom:8px;border-bottom:1px solid #e5e7eb;margin-bottom:4px}
-      tbody td:first-child::before{content:'原材料';font-size:14px;color:#475569}
-      tbody td input{min-height:46px;font-size:18px;padding:9px 10px;width:100%}
-      .costCell{font-size:19px;text-align:right;color:#111827;background:#f8fafc;border-radius:10px;padding:10px!important}
-      .costCell::before{text-align:left}
-      td[data-label="削除"] .miniBtn{width:100%;font-size:17px;min-height:46px}
-      .summary{gap:4px}
-      .sumLine{display:grid;grid-template-columns:1fr auto;gap:8px;font-size:17px;padding:9px 0}
-      .big,.profitBox{padding:12px;margin-top:8px}
-    }
-
-
-    /* v26 スマホ完全コンパクト版：横スライド防止＋画面内に収める */
-    @media(max-width:700px){
-      html,body{width:100%;max-width:100%;overflow-x:hidden!important}
-      *{max-width:100%}
-      body{font-size:15px;background:#fff}
-      main{width:100vw!important;max-width:none!important;margin:0!important;padding:6px 6px 72px!important;overflow-x:hidden!important}
-      .card{width:100%;padding:8px!important;margin:0 0 8px!important;border-radius:10px!important;border-left:0;border-right:0}
-      h2{font-size:17px;margin-bottom:8px}
-      h3{font-size:15px;margin:10px 0 6px}
-      .tabs{display:grid;grid-template-columns:1fr;gap:5px;overflow:visible;padding:5px 0 7px}
-      .tab{width:100%;font-size:15px;padding:9px 8px;border-radius:9px;text-align:center;white-space:normal;line-height:1.25}
-      .modeBox{display:grid!important;grid-template-columns:1fr!important;gap:6px!important;margin:6px 0!important}
-      .modeBtn{padding:10px!important;border-radius:10px!important}
-      .modeBtn b{font-size:16px!important;margin-bottom:2px!important}
-      .modeBtn span{font-size:13px!important;line-height:1.35!important}
-      .notice{font-size:14px!important;line-height:1.45!important;padding:8px!important;margin:6px 0!important;border-radius:10px!important}
-      .small{font-size:13px!important;line-height:1.4!important}
-      label{font-size:14px!important;margin-bottom:4px!important;line-height:1.25!important}
-      input,select,textarea{font-size:16px!important;min-height:42px!important;height:auto!important;padding:8px 9px!important;border-radius:8px!important;width:100%!important}
-      button{font-size:15px!important;min-height:43px!important;padding:9px 10px!important;border-radius:8px!important;width:100%}
-      .row{display:block!important;margin:0!important}
-      .row > div{margin-bottom:7px!important;width:100%!important}
-      .recipeTitle{display:block!important}
-      .recipeTitle > div{margin-bottom:7px!important}
-      .toolbar{display:grid!important;grid-template-columns:1fr!important;gap:6px!important;margin:8px 0!important}
-      .convertGrid{display:block!important}
-      .convertGrid > div{margin-bottom:7px!important}
-      .big,.profitBox{padding:8px!important;margin-top:6px!important;border-radius:10px!important}
-      .summary{gap:2px!important}
-      .sumLine{font-size:15px!important;padding:6px 0!important;grid-template-columns:minmax(0,1fr) auto!important}
-      .tableWrap{width:100%!important;overflow:hidden!important;border:0!important;border-radius:0!important}
-      table{width:100%!important;min-width:0!important;max-width:100%!important;table-layout:fixed!important}
-      thead{display:none!important}
-      table,tbody,tr,td{display:block!important;width:100%!important;max-width:100%!important}
-      tbody tr{padding:8px!important;margin:0 0 9px!important;border-radius:10px!important;overflow:hidden!important}
-      tbody td{display:grid!important;grid-template-columns:78px minmax(0,1fr)!important;gap:6px!important;align-items:center!important;padding:5px 0!important;min-width:0!important}
-      tbody td::before{font-size:13px!important;white-space:normal!important;line-height:1.2!important;word-break:keep-all!important}
-      tbody td:first-child{display:grid!important;grid-template-columns:78px minmax(0,1fr)!important;font-size:15px!important;padding:5px 0 7px!important}
-      tbody td input{font-size:16px!important;min-height:40px!important;padding:7px 8px!important;min-width:0!important}
-      .costCell{font-size:16px!important;padding:8px!important;min-width:0!important;word-break:break-word!important}
-      td[data-label="削除"] .miniBtn{font-size:15px!important;min-height:40px!important;width:100%!important;padding:7px!important}
-      .num{text-align:right!important}
-      .footer{font-size:11px;padding:10px}
-    }
-
+    @media(max-width:560px){main{padding:10px}.row{grid-template-columns:1fr}.card{padding:12px}h1{font-size:16px}table{min-width:720px}.recipeTitle{grid-template-columns:1fr}.toolbar button,.toolbar label,.copySelect{width:100%;justify-content:center}.copySelect{min-width:0}}
   </style>
 </head>
 <body>
 <header>
-  <h1>原材料・割合・数量・利益 原価計算アプリ v26</h1>
+  <h1>原材料・割合・数量・利益 原価計算アプリ v27</h1>
   <div class="sub">割合→数量、数量→割合、既存割合→数量変換、利益率から販売価格計算、CSV出力、バックアップ保存に対応。</div>
 </header>
-
 <main>
   <div id="tabs" class="tabs"></div>
-
   <div class="grid">
     <section class="card">
       <h2>レシピ入力</h2>
-      <div class="recipeTitle">
-        <div>
-          <label>レシピ名</label>
-          <input id="recipeName" placeholder="原材料名＋割合から自動作成。手入力も可能。">
-        </div>
-        <button id="autoNameBtn" class="light" title="手入力名を解除して自動名に戻します">自動名に戻す</button>
-      </div>
+      <div class="recipeTitle"><div><label>レシピ名</label><input id="recipeName" placeholder="原材料名＋割合から自動作成。手入力も可能。"></div><button id="autoNameBtn" class="light" title="手入力名を解除して自動名に戻します">自動名に戻す</button></div>
       <div class="small" id="nameHint"></div>
-
       <div class="modeBox">
-        <button id="modePercent" class="modeBtn" type="button">
-          <b>割合 → 数量</b>
-          <span>合計数量kgと割合％から、各原材料のkgを出します。</span>
-        </button>
-        <button id="modeQty" class="modeBtn" type="button">
-          <b>数量 → 割合</b>
-          <span>各原材料のkgから、合計に対する割合％を出します。</span>
-        </button>
-        <button id="modeConvert" class="modeBtn" type="button">
-          <b>既存割合 → 数量変換</b>
-          <span>作成済みレシピの割合を使い、必要な製造量に変換します。</span>
-        </button>
+        <button id="modePercent" class="modeBtn" type="button"><b>割合 → 数量</b><span>合計数量kgと割合％から、各原材料のkgを出します。</span></button>
+        <button id="modeQty" class="modeBtn" type="button"><b>数量 → 割合</b><span>各原材料のkgから、合計に対する割合％を出します。</span></button>
+        <button id="modeConvert" class="modeBtn" type="button"><b>既存割合 → 数量変換</b><span>作成済みレシピの割合を使い、必要な製造量に変換します。</span></button>
       </div>
-
       <div id="modeNotice" class="notice info"></div>
-
       <div id="convertPanel" class="notice convertPanel hidden">
         <label>既存割合 → 数量変換</label>
-        <div class="convertGrid">
-          <div>
-            <label>基準にする原材料</label>
-            <select id="convertIngredientSelect"></select>
-          </div>
-          <div>
-            <label>その原材料の数量 kg</label>
-            <input id="convertIngredientQty" class="num" inputmode="decimal" placeholder="例：5">
-          </div>
-          <div>
-            <label>逆算した合計数量 kg（自動）</label>
-            <input id="convertTotalPreview" class="num" readonly placeholder="自動計算">
-          </div>
-        </div>
+        <div class="convertGrid"><div><label>基準にする原材料</label><select id="convertIngredientSelect"></select></div><div><label>その原材料の数量 kg</label><input id="convertIngredientQty" class="num" inputmode="decimal" placeholder="例：5"></div><div><label>逆算した合計数量 kg（自動）</label><input id="convertTotalPreview" class="num" readonly placeholder="自動計算"></div></div>
         <div class="small">原材料を選び、その原材料の数量kgを入れると、その割合を基準に合計数量を逆算し、他の原材料数量kgも自動で変更します。</div>
       </div>
-
       <div class="row">
-        <div>
-          <label id="batchQtyLabel">合計数量 kg</label>
-          <input id="batchQty" class="num" inputmode="decimal" placeholder="例：100">
-        </div>
-        <div>
-          <label>加工費</label>
-          <input id="processingCost" class="num" inputmode="decimal" placeholder="例：1.20">
-        </div>
-        <div>
-          <label>加工費の計算</label>
-          <select id="processingMode">
-            <option value="perkg">€/kgで計算</option>
-            <option value="total">合計金額で入力</option>
-          </select>
-        </div>
-        <div>
-          <label>通貨表示</label>
-          <select id="currency">
-            <option value="€">€</option>
-            <option value="¥">¥</option>
-            <option value="$">$</option>
-          </select>
-        </div>
+        <div><label id="batchQtyLabel">合計数量 kg</label><input id="batchQty" class="num" inputmode="decimal" placeholder="例：100"></div>
+        <div><label>加工費</label><input id="processingCost" class="num" inputmode="decimal" placeholder="例：1.20"></div>
+        <div><label>加工費の計算</label><select id="processingMode"><option value="perkg">€/kgで計算</option><option value="total">合計金額で入力</option></select></div>
+        <div><label>通貨表示</label><select id="currency"><option value="€">€</option><option value="¥">¥</option><option value="$">$</option></select></div>
       </div>
-
       <div class="row">
-        <div>
-          <label>運送費</label>
-          <input id="transportCost" class="num" inputmode="decimal" placeholder="例：0.50">
-        </div>
-        <div>
-          <label>運送費の計算</label>
-          <select id="transportMode">
-            <option value="perkg">€/kgで計算</option>
-            <option value="total">合計金額で入力</option>
-          </select>
-        </div>
-        <div>
-          <label>その他費用</label>
-          <input id="otherCost" class="num" inputmode="decimal" placeholder="任意">
-        </div>
-        <div>
-          <label>その他費用の計算</label>
-          <select id="otherMode">
-            <option value="perkg">€/kgで計算</option>
-            <option value="total">合計金額で入力</option>
-          </select>
-        </div>
+        <div><label>運送費</label><input id="transportCost" class="num" inputmode="decimal" placeholder="例：0.50"></div>
+        <div><label>運送費の計算</label><select id="transportMode"><option value="perkg">€/kgで計算</option><option value="total">合計金額で入力</option></select></div>
+        <div><label>その他費用</label><input id="otherCost" class="num" inputmode="decimal" placeholder="任意"></div>
+        <div><label>その他費用の計算</label><select id="otherMode"><option value="perkg">€/kgで計算</option><option value="total">合計金額で入力</option></select></div>
       </div>
-
       <div class="row">
-        <div>
-          <label>利益率 %</label>
-          <input id="profitRate" class="num" inputmode="decimal" placeholder="例：30">
-        </div>
-        <div>
-          <label>利益率の計算方法</label>
-          <select id="profitMode">
-            <option value="margin">粗利率：売価に対する利益</option>
-            <option value="markup">原価上乗せ率：原価に対する利益</option>
-          </select>
-        </div>
-        <div>
-          <label>販売価格 / kg 手入力</label>
-          <input id="salePriceManual" class="num" inputmode="decimal" placeholder="任意。空欄なら利益率で計算">
-        </div>
-        <div>
-          <label>メモ</label>
-          <input id="memo" placeholder="任意">
-        </div>
+        <div><label>利益率 %</label><input id="profitRate" class="num" inputmode="decimal" placeholder="例：30"></div>
+        <div><label>利益率の計算方法</label><select id="profitMode"><option value="margin">粗利率：売価に対する利益</option><option value="markup">原価上乗せ率：原価に対する利益</option></select></div>
+        <div><label>販売価格 / kg 手入力</label><input id="salePriceManual" class="num" inputmode="decimal" placeholder="任意。空欄なら利益率で計算"></div>
+        <div><label>メモ</label><input id="memo" placeholder="任意"></div>
       </div>
-
       <div class="toolbar">
         <button id="addRowBtn" class="primary" type="button">原材料を追加</button>
-        <button id="copyToAllBtn" class="ok" type="button">レシピ1を2〜6へコピー</button>
+        <select id="copyTargetSelect" class="copySelect" aria-label="コピー先レシピ"><option value="1">レシピ2へコピー</option><option value="2">レシピ3へコピー</option><option value="3">レシピ4へコピー</option><option value="4">レシピ5へコピー</option><option value="5">レシピ6へコピー</option><option value="all">レシピ2〜6すべてへコピー</option></select>
+        <button id="copyToAllBtn" class="ok" type="button">レシピ1をコピー</button>
         <button id="clearRecipeBtn" class="danger" type="button">このレシピをクリア</button>
-        <button id="exportCsvBtn" class="light" type="button">CSV出力</button>
-        <button id="exportAllCsvBtn" class="light" type="button">全レシピCSV</button>
-        <button id="downloadJsonBtn" class="light" type="button">バックアップ保存</button>
-        <label class="light" style="display:inline-flex;align-items:center;gap:6px;border-radius:10px;padding:10px 12px;cursor:pointer;margin:0">
-          バックアップ読込
-          <input id="importJsonInput" type="file" accept=".json,application/json" style="display:none">
-        </label>
+        <button id="exportCsvBtn" class="light" type="button">CSV出力</button><button id="exportAllCsvBtn" class="light" type="button">全レシピCSV</button><button id="downloadJsonBtn" class="light" type="button">バックアップ保存</button>
+        <label class="light" style="display:inline-flex;align-items:center;gap:6px;border-radius:10px;padding:10px 12px;cursor:pointer;margin:0">バックアップ読込<input id="importJsonInput" type="file" accept=".json,application/json" style="display:none"></label>
       </div>
       <div id="status" class="status"></div>
-
-      <div id="backupBox" class="backupBox hidden">
-        <label id="backupLabel">バックアップコード（ダウンロードできない場合はコピーして保存）</label>
-        <textarea id="backupText" readonly></textarea>
-        <div class="toolbar">
-          <button id="copyBackupBtn" class="primary" type="button">表示内容をコピー</button>
-          <button id="saveShownBtn" class="light" type="button">表示内容をファイル保存</button>
-          <button id="hideBackupBtn" class="light" type="button">閉じる</button>
-        </div>
-      </div>
-
-      <div class="tableWrap">
-        <table>
-          <thead>
-            <tr>
-              <th style="width:46px">No.</th>
-              <th>原材料名</th>
-              <th style="width:130px">単価 / kg</th>
-              <th style="width:125px">割合 %</th>
-              <th style="width:125px">数量 kg</th>
-              <th style="width:130px">原材料費</th>
-              <th style="width:70px">削除</th>
-            </tr>
-          </thead>
-          <tbody id="ingredientRows"></tbody>
-        </table>
-      </div>
+      <div id="backupBox" class="backupBox hidden"><label id="backupLabel">バックアップコード（ダウンロードできない場合はコピーして保存）</label><textarea id="backupText" readonly></textarea><div class="toolbar"><button id="copyBackupBtn" class="primary" type="button">表示内容をコピー</button><button id="saveShownBtn" class="light" type="button">表示内容をファイル保存</button><button id="hideBackupBtn" class="light" type="button">閉じる</button></div></div>
+      <div class="tableWrap"><table><thead><tr><th style="width:46px">No.</th><th>原材料名</th><th style="width:130px">単価 / kg</th><th style="width:125px">割合 %</th><th style="width:125px">数量 kg</th><th style="width:130px">原材料費</th><th style="width:70px">削除</th></tr></thead><tbody id="ingredientRows"></tbody></table></div>
       <div id="percentWarning" class="notice warn hidden"></div>
     </section>
-
     <aside class="card">
-      <h2>計算結果</h2>
-      <div class="summary">
-        <div class="sumLine"><span>原材料 合計数量</span><b id="sumQty">0 kg</b></div>
-        <div class="sumLine"><span>割合 合計</span><b id="sumPct">0 %</b></div>
-        <div class="sumLine"><span>原材料費 合計</span><b id="rawCost">0</b></div>
-        <div class="sumLine"><span>加工費 合計</span><b id="processingTotal">0</b></div>
-        <div class="sumLine"><span>運送費 合計</span><b id="transportTotal">0</b></div>
-        <div class="sumLine"><span>その他費用 合計</span><b id="otherTotal">0</b></div>
-      </div>
-      <div class="big">
-        <div class="sumLine"><span>総原価</span><b id="totalCost">0</b></div>
-        <div class="sumLine"><span>1kgあたり原価</span><b id="costPerKg">0</b></div>
-      </div>
-      <div class="profitBox">
-        <div class="sumLine"><span>推奨販売価格 / kg</span><b id="salePriceKg">0</b></div>
-        <div class="sumLine"><span>販売金額 合計</span><b id="saleTotal">0</b></div>
-        <div class="sumLine"><span>利益 合計</span><b id="profitTotal">0</b></div>
-        <div class="sumLine"><span>実質粗利率</span><b id="actualMargin">0 %</b></div>
-      </div>
-
-      <h3>原材料表示</h3>
-      <textarea id="ingredientLabel" rows="6" readonly></textarea>
-      <div class="toolbar">
-        <button id="copyLabelBtn" class="primary" type="button">原材料表示をコピー</button>
-      </div>
-
-      <div class="notice okmsg">
-        <b>使い方</b><br>
-        1. 「割合→数量」では、合計数量kgと割合％を入力します。<br>
-        2. 「数量→割合」では、各原材料の数量kgを入力します。<br>
-        3. 「既存割合→数量変換」では、青い欄の「変換したい合計数量kg」に製造したいkgを入れます。<br>
-        4. 利益率％を入れると、推奨販売価格/kgと利益合計が出ます。<br>
-        5. CSV出力はExcelで文字化けしにくいUTF-8 BOM付きです。
-      </div>
-
-      <div class="notice info">
-        <b>Netlifyで使う場合</b><br>
-        ZIPをそのままNetlifyにアップロードしてください。スマホで古い画面が出る場合は、ブラウザ更新またはホーム画面アイコンを一度削除して追加し直してください。
-      </div>
+      <h2>計算結果</h2><div class="summary"><div class="sumLine"><span>原材料 合計数量</span><b id="sumQty">0 kg</b></div><div class="sumLine"><span>割合 合計</span><b id="sumPct">0 %</b></div><div class="sumLine"><span>原材料費 合計</span><b id="rawCost">0</b></div><div class="sumLine"><span>加工費 合計</span><b id="processingTotal">0</b></div><div class="sumLine"><span>運送費 合計</span><b id="transportTotal">0</b></div><div class="sumLine"><span>その他費用 合計</span><b id="otherTotal">0</b></div></div>
+      <div class="big"><div class="sumLine"><span>総原価</span><b id="totalCost">0</b></div><div class="sumLine"><span>1kgあたり原価</span><b id="costPerKg">0</b></div></div>
+      <div class="profitBox"><div class="sumLine"><span>推奨販売価格 / kg</span><b id="salePriceKg">0</b></div><div class="sumLine"><span>販売金額 合計</span><b id="saleTotal">0</b></div><div class="sumLine"><span>利益 合計</span><b id="profitTotal">0</b></div><div class="sumLine"><span>実質粗利率</span><b id="actualMargin">0 %</b></div></div>
+      <h3>原材料表示</h3><textarea id="ingredientLabel" rows="6" readonly></textarea><div class="toolbar"><button id="copyLabelBtn" class="primary" type="button">原材料表示をコピー</button></div>
+      <div class="notice okmsg"><b>使い方</b><br>1. 「割合→数量」では、合計数量kgと割合％を入力します。<br>2. 「数量→割合」では、各原材料の数量kgを入力します。<br>3. 「既存割合→数量変換」では、青い欄で基準原材料の数量kgを入れます。<br>4. 利益率％を入れると、推奨販売価格/kgと利益合計が出ます。<br>5. CSV出力はExcelで文字化けしにくいUTF-8 BOM付きです。</div>
+      <div class="notice info"><b>GitHub Pages / Netlifyで使う場合</b><br>ZIPの中身をそのままアップロードしてください。スマホで古い画面が出る場合は、ブラウザ更新またはホーム画面アイコンを一度削除して追加し直してください。</div>
     </aside>
   </div>
 </main>
-
-<div class="footer">v22 / 公開用空データ版 / 選択原材料数量変換 / CSV・JSONバックアップ対応</div>
-
+<div class="footer">v27 / 公開用空データ版 / レシピ1のコピー先選択 / 選択原材料数量変換 / CSV・JSONバックアップ対応</div>
 <script>
 (function(){
   const STORAGE_KEY = 'atom_ingredient_cost_app_v22_clean_public';
-  const LEGACY_KEYS = [];
   const recipeCount = 6;
   let current = 0;
-
-  const $ = id => document.getElementById(id);
-  const num = v => {
-    if (v === null || v === undefined) return 0;
-    const n = parseFloat(String(v).replace(',', '.').replace(/[^\d.\-]/g, ''));
-    return isFinite(n) ? n : 0;
-  };
-  const round = (n, d=3) => {
-    if (!isFinite(n)) return '';
-    const p = Math.pow(10,d);
-    const v = Math.round((n + Number.EPSILON)*p)/p;
-    return String(v);
-  };
-  const money = (n, cur) => `${cur}${(isFinite(n)?n:0).toLocaleString('ja-JP',{minimumFractionDigits:2,maximumFractionDigits:2})}`;
-
-  function emptyIngredient(){ return { name:'', unitPrice:'', pct:'', qty:'' }; }
-  function emptyRecipe(i){
-    return {
-      nameManual:false, manualName:'', mode:'percent', batchQty:'', convertTargetQty:'', convertIngredientIndex:0, convertIngredientQty:'', currency:'€',
-      processingCost:'', processingMode:'perkg', transportCost:'', transportMode:'perkg', otherCost:'', otherMode:'perkg',
-      profitRate:'', profitMode:'margin', salePriceManual:'', memo:'',
-      ingredients:Array.from({length:8}, emptyIngredient)
-    };
-  }
-  function normalizeRecipe(data, i){
-    const base = emptyRecipe(i);
-    const src = data && typeof data === 'object' ? data : {};
-    const merged = Object.assign(base, src);
-    if (!['percent','qty','convert'].includes(merged.mode)) merged.mode = 'percent';
-    if (!['margin','markup'].includes(merged.profitMode)) merged.profitMode = 'margin';
-    merged.ingredients = Array.isArray(src.ingredients) && src.ingredients.length ? src.ingredients.map(x => Object.assign(emptyIngredient(), x || {})) : base.ingredients;
-    return merged;
-  }
-  function recipeHasContent(recipe){
-    if(!recipe || typeof recipe !== 'object') return false;
-    const fields = ['manualName','batchQty','convertTargetQty','convertIngredientQty','processingCost','transportCost','otherCost','profitRate','salePriceManual','memo'];
-    if(fields.some(k => String(recipe[k] ?? '').trim() !== '')) return true;
-    if(Array.isArray(recipe.ingredients)){
-      return recipe.ingredients.some(ing => ing && ['name','unitPrice','pct','qty'].some(k => String(ing[k] ?? '').trim() !== ''));
-    }
-    return false;
-  }
-  function dataHasContent(arr){
-    return Array.isArray(arr) && arr.some(recipeHasContent);
-  }
-  function extractRecipeArray(saved){
-    if(Array.isArray(saved)) return saved;
-    if(saved && typeof saved === 'object' && Array.isArray(saved.recipes)) return saved.recipes;
-    return null;
-  }
-  function countIngredientContent(arr){
-    if(!Array.isArray(arr)) return 0;
-    return arr.reduce((total, recipe)=>{
-      if(!recipe || !Array.isArray(recipe.ingredients)) return total;
-      return total + recipe.ingredients.filter(ing => ing && ['name','unitPrice','pct','qty'].some(k => String(ing[k] ?? '').trim() !== '')).length;
-    }, 0);
-  }
-  function load(){
-    // 公開用の空データ版です。旧バージョンの保存データは自動復旧しません。
-    // これにより、GitHub Pagesなどに公開しても、アプリ作成時に原材料名が表示されません。
-    try{
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-      const arr = extractRecipeArray(saved);
-      if (Array.isArray(arr) && arr.length){
-        return Array.from({length:recipeCount}, (_,i)=> normalizeRecipe(arr[i], i));
-      }
-    }catch(e){}
-    return Array.from({length:recipeCount}, (_,i)=>emptyRecipe(i));
-  }
-  let recipes = load();
-
-  function save(){
-    try{
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(recipes));
-      return true;
-    }catch(e){
-      setStatus('端末内保存に失敗しました。空き容量を確認してください。', true);
-      return false;
-    }
-  }
-  function r(){ return recipes[current]; }
-  function setStatus(msg, isErr=false){
-    const el = $('status');
-    el.textContent = msg || '';
-    el.classList.toggle('err', !!isErr);
-  }
-
-  function autoName(recipe){
-    const parts = recipe.ingredients.filter(x => (x.name||'').trim()).slice(0,8).map(x => {
-      const pct = num(x.pct);
-      const p = pct ? ` ${round(pct,2)}%` : '';
-      return `${x.name.trim()}${p}`;
-    });
-    return parts.length ? parts.join(' + ') : `レシピ${current+1}`;
-  }
-  function recipeName(recipe){ return recipe.nameManual && recipe.manualName ? recipe.manualName : autoName(recipe); }
-
-  function renderTabs(){
-    $('tabs').innerHTML = recipes.map((recipe,i)=>{
-      const name = recipeName(recipe);
-      return `<button class="tab ${i===current?'active':''}" data-tab="${i}">${escapeHtml('R'+(i+1)+' '+name).slice(0,32)}</button>`;
-    }).join('');
-    document.querySelectorAll('[data-tab]').forEach(btn=>{ btn.onclick = () => { current = +btn.dataset.tab; render(); }; });
-  }
-
-  function render(){
-    const recipe = r();
-    renderTabs();
-    $('recipeName').value = recipe.nameManual ? recipe.manualName : autoName(recipe);
-    $('nameHint').textContent = recipe.nameManual ? '手入力名を使用中です。' : '原材料名と割合から自動名を作成中です。';
-    $('modePercent').classList.toggle('active', recipe.mode === 'percent');
-    $('modeQty').classList.toggle('active', recipe.mode === 'qty');
-    $('modeConvert').classList.toggle('active', recipe.mode === 'convert');
-
-    if(recipe.mode === 'percent'){
-      $('modeNotice').innerHTML = '<b>割合 → 数量モード：</b> 合計数量kgと割合％を入力してください。数量kgは自動で出ます。';
-    }else if(recipe.mode === 'qty'){
-      $('modeNotice').innerHTML = '<b>数量 → 割合モード：</b> 各原材料の数量kgを入力してください。割合％と合計数量kgは自動で出ます。';
-    }else{
-      $('modeNotice').innerHTML = '<b>既存割合 → 数量変換モード：</b> 青い欄で基準にする原材料を選び、その原材料の数量kgを入力してください。他の数量kgも割合どおり再計算します。';
-    }
-
-    $('convertPanel').classList.toggle('hidden', recipe.mode !== 'convert');
-    if(recipe.mode === 'convert') renderConvertControls();
-    $('batchQtyLabel').textContent = recipe.mode === 'qty' ? '合計数量 kg（自動）' : (recipe.mode === 'convert' ? '元の合計数量 kg（参考）' : '合計数量 kg');
-    $('batchQty').value = recipe.batchQty ?? '';
-    $('batchQty').readOnly = recipe.mode === 'qty' || recipe.mode === 'convert';
-    ['processingCost','processingMode','transportCost','transportMode','otherCost','otherMode','currency','profitRate','profitMode','salePriceManual','memo'].forEach(id=>{
-      if($(id)) $(id).value = recipe[id] ?? '';
-    });
-    renderRows();
-    calculate(false);
-  }
-
-  function validIngredientOptions(recipe){
-    return recipe.ingredients
-      .map((ing,i)=>({ing,i}))
-      .filter(x => (x.ing.name || x.ing.unitPrice || x.ing.pct || x.ing.qty));
-  }
-  function renderConvertControls(){
-    const recipe = r();
-    const select = $('convertIngredientSelect');
-    if(!select) return;
-    const opts = validIngredientOptions(recipe);
-    const currentIndex = Number.isInteger(+recipe.convertIngredientIndex) ? +recipe.convertIngredientIndex : 0;
-    if(!opts.some(x => x.i === currentIndex)){
-      recipe.convertIngredientIndex = opts.length ? opts[0].i : 0;
-    }
-    select.innerHTML = recipe.ingredients.map((ing,i)=>{
-      const name = (ing.name || `原材料${i+1}`).trim();
-      const pct = num(ing.pct);
-      const pctText = pct ? ` / ${round(pct,3)}%` : ' / 割合未入力';
-      return `<option value="${i}">${escapeHtml(`${i+1}. ${name}${pctText}`)}</option>`;
-    }).join('');
-    select.value = String(recipe.convertIngredientIndex || 0);
-    const selected = recipe.ingredients[+select.value] || emptyIngredient();
-    const qtyFromRecipe = selected.qty !== undefined && selected.qty !== null ? selected.qty : '';
-    if(!recipe.convertIngredientQty && qtyFromRecipe) recipe.convertIngredientQty = qtyFromRecipe;
-    $('convertIngredientQty').value = recipe.convertIngredientQty || qtyFromRecipe || '';
-    updateConvertPreview(false);
-  }
-  function updateConvertPreview(shouldSave){
-    const recipe = r();
-    const idx = +recipe.convertIngredientIndex || 0;
-    const ing = recipe.ingredients[idx] || emptyIngredient();
-    const pct = num(ing.pct);
-    const qty = num(recipe.convertIngredientQty);
-    const total = pct > 0 && qty > 0 ? qty * 100 / pct : 0;
-    recipe.convertTargetQty = total ? round(total,3) : '';
-    const preview = $('convertTotalPreview');
-    if(preview) preview.value = recipe.convertTargetQty;
-    if(shouldSave) save();
-    return total;
-  }
-  function setConvertFromIngredientQty(idx, qtyValue, showMessage){
-    const recipe = r();
-    recipe.convertIngredientIndex = idx;
-    recipe.convertIngredientQty = qtyValue;
-    updateConvertPreview(false);
-    const select = $('convertIngredientSelect');
-    const qtyInput = $('convertIngredientQty');
-    if(select) select.value = String(idx);
-    if(qtyInput) qtyInput.value = qtyValue;
-    const pct = num((recipe.ingredients[idx] || {}).pct);
-    const qty = num(qtyValue);
-    if(showMessage){
-      if(pct > 0 && qty > 0){
-        setStatus(`${(recipe.ingredients[idx] || {}).name || '選択した原材料'} ${qty}kg を基準に、他の数量kgを割合どおり再計算しました。`);
-      }else if(qty > 0){
-        setStatus('この原材料の割合％が0のため、合計数量を逆算できません。先に割合％を入れてください。', true);
-      }
-    }
-  }
-
-  function renderRows(){
-    const recipe = r();
-    const pctReadonly = recipe.mode === 'qty';
-    const qtyReadonly = recipe.mode !== 'qty';
-    $('ingredientRows').innerHTML = recipe.ingredients.map((ing,i)=>`
-      <tr>
-        <td data-label="No.">${i+1}</td>
-        <td data-label="原材料名"><input data-field="name" data-i="${i}" value="${escapeAttr(ing.name)}" placeholder="原材料名"></td>
-        <td data-label="単価 / kg"><input class="num" inputmode="decimal" data-field="unitPrice" data-i="${i}" value="${escapeAttr(ing.unitPrice)}" placeholder="€/kg"></td>
-        <td data-label="割合 %"><input class="num" inputmode="decimal" data-field="pct" data-i="${i}" value="${escapeAttr(ing.pct)}" placeholder="%" ${pctReadonly?'readonly':''}></td>
-        <td data-label="数量 kg"><input class="num" inputmode="decimal" data-field="qty" data-i="${i}" value="${escapeAttr(ing.qty)}" placeholder="kg" ${qtyReadonly?'readonly':''}></td>
-        <td data-label="原材料費" class="costCell" id="cost-${i}">0</td>
-        <td data-label="削除"><button class="danger miniBtn" data-del="${i}" type="button">削除</button></td>
-      </tr>`).join('');
-
-    document.querySelectorAll('#ingredientRows input').forEach(inp=>{
-      inp.addEventListener('input', e=>{
-        const i = +e.target.dataset.i;
-        const field = e.target.dataset.field;
-        recipe.ingredients[i][field] = e.target.value;
-        if(field === 'name' || field === 'pct') updateNameField();
-        calculate(true);
-      });
-    });
-    document.querySelectorAll('[data-del]').forEach(btn=>{
-      btn.onclick = () => {
-        recipe.ingredients.splice(+btn.dataset.del,1);
-        if(recipe.ingredients.length === 0) recipe.ingredients.push(emptyIngredient());
-        save(); render();
-      };
-    });
-  }
-
-  function updateNameField(){
-    const recipe = r();
-    if(!recipe.nameManual){
-      $('recipeName').value = autoName(recipe);
-      $('nameHint').textContent = '原材料名と割合から自動名を作成中です。';
-      renderTabs();
-    }
-  }
-
-  function calculate(shouldSave){
-    const recipe = r();
-    const cur = recipe.currency || '€';
-    if(recipe.mode === 'convert') updateConvertPreview(false);
-    let totalQty = recipe.mode === 'convert' ? num(recipe.convertTargetQty || recipe.batchQty) : num(recipe.batchQty);
-    let pctSum = 0;
-    let rawCost = 0;
-
-    if(recipe.mode === 'qty'){
-      totalQty = recipe.ingredients.reduce((s,ing)=>s+num(ing.qty),0);
-      recipe.batchQty = totalQty ? round(totalQty,3) : '';
-      $('batchQty').value = recipe.batchQty;
-    }
-
-    recipe.ingredients.forEach((ing,i)=>{
-      if(recipe.mode === 'qty'){
-        const qty = num(ing.qty);
-        const pct = totalQty ? qty / totalQty * 100 : 0;
-        ing.pct = pct ? round(pct,3) : '';
-        pctSum += pct;
-        const pctInput = document.querySelector(`input[data-field="pct"][data-i="${i}"]`);
-        if(pctInput) pctInput.value = ing.pct;
-      }else{
-        const pct = num(ing.pct);
-        pctSum += pct;
-        const qty = totalQty && pct ? totalQty * pct / 100 : 0;
-        ing.qty = qty ? round(qty,3) : '';
-        const qtyInput = document.querySelector(`input[data-field="qty"][data-i="${i}"]`);
-        if(qtyInput) qtyInput.value = ing.qty;
-      }
-      const cost = num(ing.qty) * num(ing.unitPrice);
-      rawCost += cost;
-      const cell = $(`cost-${i}`);
-      if(cell) cell.textContent = money(cost, cur);
-    });
-
-    const processingTotal = costCalc(recipe.processingCost, recipe.processingMode, totalQty);
-    const transportTotal = costCalc(recipe.transportCost, recipe.transportMode, totalQty);
-    const otherTotal = costCalc(recipe.otherCost, recipe.otherMode, totalQty);
-    const totalCost = rawCost + processingTotal + transportTotal + otherTotal;
-    const costPerKg = totalQty ? totalCost / totalQty : 0;
-
-    const profitRate = num(recipe.profitRate);
-    const manualSale = num(recipe.salePriceManual);
-    let salePriceKg = 0;
-    if(manualSale > 0){
-      salePriceKg = manualSale;
-    }else if(profitRate > 0){
-      if(recipe.profitMode === 'margin'){
-        salePriceKg = profitRate >= 100 ? 0 : costPerKg / (1 - profitRate/100);
-      }else{
-        salePriceKg = costPerKg * (1 + profitRate/100);
-      }
-    }
-    const saleTotal = salePriceKg * totalQty;
-    const profitTotal = saleTotal - totalCost;
-    const actualMargin = saleTotal ? profitTotal / saleTotal * 100 : 0;
-
-    $('sumQty').textContent = `${round(totalQty,3) || '0'} kg`;
-    $('sumPct').textContent = `${round(pctSum,3) || '0'} %`;
-    $('rawCost').textContent = money(rawCost, cur);
-    $('processingTotal').textContent = money(processingTotal, cur);
-    $('transportTotal').textContent = money(transportTotal, cur);
-    $('otherTotal').textContent = money(otherTotal, cur);
-    $('totalCost').textContent = money(totalCost, cur);
-    $('costPerKg').textContent = `${money(costPerKg, cur)} / kg`;
-    $('salePriceKg').textContent = `${money(salePriceKg, cur)} / kg`;
-    $('saleTotal').textContent = money(saleTotal, cur);
-    $('profitTotal').textContent = money(profitTotal, cur);
-    $('actualMargin').textContent = `${round(actualMargin,2) || '0'} %`;
-
-    const warn = $('percentWarning');
-    if(recipe.mode === 'convert' && !totalQty){
-      warn.classList.remove('hidden');
-      warn.innerHTML = '青い欄で基準にする原材料と数量kgを入力してください。入力すると数量kgが再計算されます。';
-    }else if(recipe.mode !== 'qty' && Math.abs(pctSum - 100) > 0.02 && pctSum > 0){
-      warn.classList.remove('hidden');
-      warn.innerHTML = `割合の合計が <b>${round(pctSum,3)}%</b> です。100%にすると、合計数量と一致します。`;
-    }else if(recipe.profitMode === 'margin' && profitRate >= 100){
-      warn.classList.remove('hidden');
-      warn.innerHTML = '粗利率は100%未満で入力してください。';
-    }else{
-      warn.classList.add('hidden');
-    }
-
-    $('ingredientLabel').value = makeIngredientLabel(recipe);
-    if(shouldSave) save();
-  }
-
-  function costCalc(value, mode, totalQty){ const v = num(value); return mode === 'perkg' ? v * totalQty : v; }
-  function makeIngredientLabel(recipe){
-    const arr = recipe.ingredients.filter(x => (x.name||'').trim()).map(x => {
-      const pct = num(x.pct);
-      return pct ? `${x.name.trim()} ${round(pct,2)}%` : x.name.trim();
-    });
-    return arr.length ? arr.join('、') : '';
-  }
-  function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-  function escapeAttr(s){ return escapeHtml(s).replace(/`/g,'&#96;'); }
-
-  function setMode(mode){
-    const recipe = r();
-    if(mode === 'convert'){
-      const currentTotal = recipe.mode === 'qty' ? recipe.ingredients.reduce((s,ing)=>s+num(ing.qty),0) : (num(recipe.batchQty) || recipe.ingredients.reduce((s,ing)=>s+num(ing.qty),0));
-      if(!num(recipe.convertTargetQty)) recipe.convertTargetQty = currentTotal ? round(currentTotal,3) : '';
-      const idx = +recipe.convertIngredientIndex || 0;
-      const selected = recipe.ingredients[idx] || recipe.ingredients[0] || emptyIngredient();
-      if(!num(recipe.convertIngredientQty) && num(selected.qty)) recipe.convertIngredientQty = selected.qty;
-      if(!num(recipe.convertIngredientQty) && currentTotal && num(selected.pct)) recipe.convertIngredientQty = round(currentTotal * num(selected.pct) / 100, 3);
-    }
-    recipe.mode = mode;
-    calculate(false);
-    save();
-    render();
-  }
-  $('modePercent').onclick = () => setMode('percent');
-  $('modeQty').onclick = () => setMode('qty');
-  $('modeConvert').onclick = () => setMode('convert');
-  if($('convertIngredientSelect')) $('convertIngredientSelect').addEventListener('change', e=>{
-    const recipe = r();
-    const idx = +e.target.value || 0;
-    recipe.convertIngredientIndex = idx;
-    const ing = recipe.ingredients[idx] || emptyIngredient();
-    recipe.convertIngredientQty = ing.qty || '';
-    const qtyInput = $('convertIngredientQty');
-    if(qtyInput) qtyInput.value = recipe.convertIngredientQty;
-    calculate(true);
-    setStatus(`${ing.name || '選択した原材料'}を基準にしました。数量kgを変更すると他の原材料数量も自動で変わります。`);
-  });
-  if($('convertIngredientQty')) $('convertIngredientQty').addEventListener('input', e=>{
-    const recipe = r();
-    setConvertFromIngredientQty(+recipe.convertIngredientIndex || 0, e.target.value, true);
-    calculate(true);
-  });
-  if($('convertIngredientQty')) $('convertIngredientQty').addEventListener('change', e=>{
-    const recipe = r();
-    setConvertFromIngredientQty(+recipe.convertIngredientIndex || 0, e.target.value, true);
-    calculate(true);
-  });
-
-  ['batchQty','processingCost','processingMode','transportCost','transportMode','otherCost','otherMode','currency','profitRate','profitMode','salePriceManual','memo'].forEach(id=>{
-    $(id).addEventListener('input', e=>{ r()[id] = e.target.value; calculate(true); });
-    $(id).addEventListener('change', e=>{ r()[id] = e.target.value; calculate(true); });
-  });
-
-  $('recipeName').addEventListener('input', e=>{
-    r().nameManual = true; r().manualName = e.target.value;
-    $('nameHint').textContent = '手入力名を使用中です。'; save(); renderTabs();
-  });
-  $('autoNameBtn').onclick = () => { r().nameManual = false; r().manualName = ''; save(); render(); };
-  $('addRowBtn').onclick = () => { r().ingredients.push(emptyIngredient()); save(); render(); };
-  $('clearRecipeBtn').onclick = () => {
-    if(!confirm('このレシピの入力内容をクリアしますか？')) return;
-    recipes[current] = emptyRecipe(current); save(); render(); setStatus('このレシピをクリアしました。');
-  };
-  $('copyToAllBtn').onclick = () => {
-    if(!confirm('レシピ1の内容をレシピ2〜6へコピーしますか？')) return;
-    const base = JSON.parse(JSON.stringify(recipes[0]));
-    for(let i=1;i<recipeCount;i++){
-      recipes[i] = normalizeRecipe(JSON.parse(JSON.stringify(base)), i);
-      if(base.nameManual && base.manualName) recipes[i].manualName = `${base.manualName} コピー${i+1}`;
-    }
-    save(); render(); setStatus('レシピ1をコピーしました。');
-  };
-  $('copyLabelBtn').onclick = () => copyText($('ingredientLabel').value, '原材料表示をコピーしました。');
-  $('copyBackupBtn').onclick = () => copyText($('backupText').value, '表示内容をコピーしました。');
-  $('saveShownBtn').onclick = () => {
-    if(!shownPayload || !shownPayload.text){ setStatus('保存する表示内容がありません。', true); return; }
-    saveFile(shownPayload.text, shownPayload.filename, shownPayload.type);
-  };
-  $('hideBackupBtn').onclick = () => $('backupBox').classList.add('hidden');
-
-  function buildBackup(){
-    return {
-      app:'ingredient-cost-app', version:21, savedAt:new Date().toISOString(), recipes:recipes
-    };
-  }
-  function makeCsvForRecipe(recipe, idx){
-    const curName = recipeName(recipe);
-    const summary = getSummary(recipe);
-    const rows = [
-      ['レシピ番号', `R${idx+1}`], ['レシピ名', curName], ['モード', modeLabel(recipe.mode)], ['メモ', recipe.memo || ''],
-      ['合計数量kg', summary.totalQty], ['基準原材料番号', Number(recipe.convertIngredientIndex || 0) + 1], ['基準原材料数量kg', recipe.convertIngredientQty || ''], ['換算後合計数量kg', recipe.convertTargetQty || ''], ['割合合計%', summary.pctSum], ['原材料費合計', summary.rawCost], ['総原価', summary.totalCost],
-      ['1kgあたり原価', summary.costPerKg], ['利益率%', recipe.profitRate || ''], ['利益率計算方法', profitModeLabel(recipe.profitMode)],
-      ['推奨販売価格/kg', summary.salePriceKg], ['販売金額合計', summary.saleTotal], ['利益合計', summary.profitTotal], ['実質粗利率%', summary.actualMargin],
-      [], ['原材料名','単価/kg','割合%','数量kg','原材料費']
-    ];
-    recipe.ingredients.filter(x=>x.name||x.unitPrice||x.pct||x.qty).forEach(x=>{
-      rows.push([x.name, x.unitPrice, x.pct, x.qty, num(x.qty)*num(x.unitPrice)]);
-    });
-    return rows;
-  }
-  function makeAllCsv(){
-    const rows = [];
-    recipes.forEach((recipe, idx)=>{
-      if(idx>0) rows.push([],[]);
-      rows.push(...makeCsvForRecipe(recipe, idx));
-    });
-    return toCsv(rows);
-  }
-  function toCsv(rows){ return '\uFEFF' + rows.map(row => row.map(v => `"${String(v ?? '').replace(/"/g,'""')}"`).join(',')).join('\r\n'); }
-  function safeFileName(s){ return String(s||'recipe').replace(/[\\/:*?"<>|\s]+/g,'_').slice(0,60) || 'recipe'; }
-  function modeLabel(mode){ return mode === 'qty' ? '数量→割合' : mode === 'convert' ? '既存割合→数量変換' : '割合→数量'; }
-  function profitModeLabel(mode){ return mode === 'markup' ? '原価上乗せ率' : '粗利率'; }
-
-  function getSummary(recipe){
-    let totalQty = recipe.mode === 'qty' ? recipe.ingredients.reduce((s,ing)=>s+num(ing.qty),0) : (recipe.mode === 'convert' ? num(recipe.convertTargetQty || (num((recipe.ingredients[+recipe.convertIngredientIndex || 0] || {}).pct) ? num(recipe.convertIngredientQty) * 100 / num((recipe.ingredients[+recipe.convertIngredientIndex || 0] || {}).pct) : recipe.batchQty)) : num(recipe.batchQty));
-    let pctSum = 0, rawCost = 0;
-    recipe.ingredients.forEach(ing=>{
-      if(recipe.mode === 'qty'){
-        const pct = totalQty ? num(ing.qty) / totalQty * 100 : 0; pctSum += pct;
-      }else{ pctSum += num(ing.pct); }
-      rawCost += num(ing.qty) * num(ing.unitPrice);
-    });
-    const processingTotal = costCalc(recipe.processingCost, recipe.processingMode, totalQty);
-    const transportTotal = costCalc(recipe.transportCost, recipe.transportMode, totalQty);
-    const otherTotal = costCalc(recipe.otherCost, recipe.otherMode, totalQty);
-    const totalCost = rawCost + processingTotal + transportTotal + otherTotal;
-    const costPerKg = totalQty ? totalCost / totalQty : 0;
-    const profitRate = num(recipe.profitRate);
-    const manualSale = num(recipe.salePriceManual);
-    let salePriceKg = 0;
-    if(manualSale > 0) salePriceKg = manualSale;
-    else if(profitRate > 0) salePriceKg = recipe.profitMode === 'margin' ? (profitRate >= 100 ? 0 : costPerKg / (1 - profitRate/100)) : costPerKg * (1 + profitRate/100);
-    const saleTotal = salePriceKg * totalQty;
-    const profitTotal = saleTotal - totalCost;
-    const actualMargin = saleTotal ? profitTotal / saleTotal * 100 : 0;
-    return {totalQty:round(totalQty,3), pctSum:round(pctSum,3), rawCost:round(rawCost,2), processingTotal:round(processingTotal,2), transportTotal:round(transportTotal,2), otherTotal:round(otherTotal,2), totalCost:round(totalCost,2), costPerKg:round(costPerKg,2), salePriceKg:round(salePriceKg,2), saleTotal:round(saleTotal,2), profitTotal:round(profitTotal,2), actualMargin:round(actualMargin,2)};
-  }
-
   let shownPayload = null;
-  function showTextBox(label, text, filename='backup.txt', type='text/plain;charset=utf-8'){
-    shownPayload = {text, filename, type};
-    $('backupLabel').textContent = label;
-    $('backupText').value = text;
-    $('backupBox').classList.remove('hidden');
-  }
-
-  $('exportCsvBtn').onclick = async () => {
-    calculate(true);
-    const recipe = r();
-    const csv = toCsv(makeCsvForRecipe(recipe, current));
-    const filename = `${safeFileName(recipeName(recipe))}_R${current+1}.csv`;
-    showTextBox('CSV内容（ファイル保存できない場合はコピーして保存）', csv.replace(/^﻿/, ''), filename, 'text/csv;charset=utf-8');
-    await saveFile(csv, filename, 'text/csv;charset=utf-8');
-  };
-  $('exportAllCsvBtn').onclick = async () => {
-    calculate(true);
-    const csv = makeAllCsv();
-    showTextBox('全レシピCSV内容（ファイル保存できない場合はコピーして保存）', csv.replace(/^﻿/, ''), 'ingredient_recipes_all.csv', 'text/csv;charset=utf-8');
-    await saveFile(csv, 'ingredient_recipes_all.csv', 'text/csv;charset=utf-8');
-  };
-  $('downloadJsonBtn').onclick = async () => {
-    save();
-    const text = JSON.stringify(buildBackup(), null, 2);
-    showTextBox('バックアップコード（ファイル保存できない場合はコピーして保存）', text, 'ingredient_app_backup_v22.json', 'application/json;charset=utf-8');
-    await saveFile(text, 'ingredient_app_backup_v22.json', 'application/json;charset=utf-8');
-  };
-  $('importJsonInput').addEventListener('change', e=>{
-    const file = e.target.files[0]; if(!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      try{
-        const data = JSON.parse(reader.result);
-        const arr = Array.isArray(data) ? data : data.recipes;
-        if(!Array.isArray(arr)) throw new Error('形式が違います');
-        recipes = Array.from({length:recipeCount}, (_,i)=> normalizeRecipe(arr[i], i));
-        current = 0; save(); render(); setStatus('バックアップを読み込みました。');
-      }catch(err){ alert('読み込めませんでした。JSON形式を確認してください。'); setStatus('バックアップ読込に失敗しました。', true); }
-      e.target.value = '';
-    };
-    reader.readAsText(file);
-  });
-
-  async function saveFile(text, filename, type){
-    try{
-      const blob = new Blob([text], {type});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      a.rel = 'noopener';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(()=>URL.revokeObjectURL(url), 3000);
-      setStatus(`${filename} の保存処理を開始しました。ファイルが出ない場合は、下の表示内容をコピーして保存してください。`);
-      return true;
-    }catch(e){
-      setStatus('ファイル保存できない場合は、下の表示内容をコピーしてメモ・メール等に保存してください。', false);
-      $('backupBox').classList.remove('hidden');
-      return false;
-    }
-  }
-  async function copyText(text, successMsg){
-    try{ await navigator.clipboard.writeText(text); setStatus(successMsg); }
-    catch(e){
-      const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); setStatus(successMsg);
-    }
-  }
-
+  const $ = id => document.getElementById(id);
+  const num = v => { if(v===null || v===undefined) return 0; const n=parseFloat(String(v).replace(',', '.').replace(/[^\d.\-]/g,'')); return isFinite(n)?n:0; };
+  const round = (n,d=3) => { if(!isFinite(n)) return ''; const p=Math.pow(10,d); return String(Math.round((n+Number.EPSILON)*p)/p); };
+  const money = (n,cur) => `${cur}${(isFinite(n)?n:0).toLocaleString('ja-JP',{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+  function emptyIngredient(){ return {name:'', unitPrice:'', pct:'', qty:''}; }
+  function emptyRecipe(i){ return {nameManual:false, manualName:'', mode:'percent', batchQty:'', convertTargetQty:'', convertIngredientIndex:0, convertIngredientQty:'', currency:'€', processingCost:'', processingMode:'perkg', transportCost:'', transportMode:'perkg', otherCost:'', otherMode:'perkg', profitRate:'', profitMode:'margin', salePriceManual:'', memo:'', ingredients:Array.from({length:8}, emptyIngredient)}; }
+  function normalizeRecipe(data,i){ const base=emptyRecipe(i); const src=(data&&typeof data==='object')?data:{}; const merged=Object.assign(base,src); if(!['percent','qty','convert'].includes(merged.mode)) merged.mode='percent'; if(!['margin','markup'].includes(merged.profitMode)) merged.profitMode='margin'; if(!['perkg','total'].includes(merged.processingMode)) merged.processingMode='perkg'; if(!['perkg','total'].includes(merged.transportMode)) merged.transportMode='perkg'; if(!['perkg','total'].includes(merged.otherMode)) merged.otherMode='perkg'; merged.ingredients = Array.isArray(src.ingredients)&&src.ingredients.length ? src.ingredients.map(x=>Object.assign(emptyIngredient(), x||{})) : base.ingredients; return merged; }
+  function extractRecipeArray(saved){ if(Array.isArray(saved)) return saved; if(saved && typeof saved==='object' && Array.isArray(saved.recipes)) return saved.recipes; return null; }
+  function load(){ try{ const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null'); const arr=extractRecipeArray(saved); if(Array.isArray(arr)&&arr.length) return Array.from({length:recipeCount},(_,i)=>normalizeRecipe(arr[i],i)); }catch(e){} return Array.from({length:recipeCount},(_,i)=>emptyRecipe(i)); }
+  let recipes = load();
+  function save(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(recipes)); return true; }catch(e){ setStatus('端末内保存に失敗しました。空き容量を確認してください。', true); return false; } }
+  function r(){ return recipes[current]; }
+  function setStatus(msg,isErr=false){ const el=$('status'); if(!el) return; el.textContent=msg||''; el.classList.toggle('err',!!isErr); }
+  function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+  function escapeAttr(s){ return escapeHtml(s).replace(/`/g,'&#96;'); }
+  function autoName(recipe,idx=current){ const parts=(recipe.ingredients||[]).filter(x=>(x.name||'').trim()).slice(0,8).map(x=>{ const pct=num(x.pct); return `${x.name.trim()}${pct?' '+round(pct,2)+'%':''}`; }); return parts.length ? parts.join(' + ') : `レシピ${idx+1}`; }
+  function recipeName(recipe,idx=current){ return recipe.nameManual && recipe.manualName ? recipe.manualName : autoName(recipe,idx); }
+  function renderTabs(){ $('tabs').innerHTML=recipes.map((recipe,i)=>`<button class="tab ${i===current?'active':''}" data-tab="${i}">${escapeHtml('R'+(i+1)+' '+recipeName(recipe,i)).slice(0,32)}</button>`).join(''); document.querySelectorAll('[data-tab]').forEach(btn=>{ btn.onclick=()=>{ current=+btn.dataset.tab; render(); }; }); }
+  function render(){ const recipe=r(); renderTabs(); $('recipeName').value=recipe.nameManual?recipe.manualName:autoName(recipe,current); $('nameHint').textContent=recipe.nameManual?'手入力名を使用中です。':'原材料名と割合から自動名を作成中です。'; $('modePercent').classList.toggle('active',recipe.mode==='percent'); $('modeQty').classList.toggle('active',recipe.mode==='qty'); $('modeConvert').classList.toggle('active',recipe.mode==='convert'); if(recipe.mode==='percent') $('modeNotice').innerHTML='<b>割合 → 数量モード：</b> 合計数量kgと割合％を入力してください。数量kgは自動で出ます。'; else if(recipe.mode==='qty') $('modeNotice').innerHTML='<b>数量 → 割合モード：</b> 各原材料の数量kgを入力してください。割合％と合計数量kgは自動で出ます。'; else $('modeNotice').innerHTML='<b>既存割合 → 数量変換モード：</b> 青い欄で基準にする原材料を選び、その原材料の数量kgを入力してください。他の数量kgも割合どおり再計算します。'; $('convertPanel').classList.toggle('hidden',recipe.mode!=='convert'); $('batchQtyLabel').textContent=recipe.mode==='qty'?'合計数量 kg（自動）':(recipe.mode==='convert'?'元の合計数量 kg（参考）':'合計数量 kg'); $('batchQty').value=recipe.batchQty??''; $('batchQty').readOnly=recipe.mode==='qty'||recipe.mode==='convert'; ['processingCost','processingMode','transportCost','transportMode','otherCost','otherMode','currency','profitRate','profitMode','salePriceManual','memo'].forEach(id=>{ if($(id)) $(id).value=recipe[id]??''; }); if(recipe.mode==='convert') renderConvertControls(); renderRows(); calculate(false); }
+  function renderRows(){ const recipe=r(); const pctReadonly=recipe.mode==='qty'; const qtyReadonly=recipe.mode!=='qty'; $('ingredientRows').innerHTML=recipe.ingredients.map((ing,i)=>`<tr><td>${i+1}</td><td><input data-field="name" data-i="${i}" value="${escapeAttr(ing.name)}" placeholder="原材料名"></td><td><input class="num" inputmode="decimal" data-field="unitPrice" data-i="${i}" value="${escapeAttr(ing.unitPrice)}" placeholder="€/kg"></td><td><input class="num" inputmode="decimal" data-field="pct" data-i="${i}" value="${escapeAttr(ing.pct)}" placeholder="%" ${pctReadonly?'readonly':''}></td><td><input class="num" inputmode="decimal" data-field="qty" data-i="${i}" value="${escapeAttr(ing.qty)}" placeholder="kg" ${qtyReadonly?'readonly':''}></td><td class="costCell" id="cost-${i}">0</td><td><button class="danger miniBtn" data-del="${i}" type="button">削除</button></td></tr>`).join(''); document.querySelectorAll('#ingredientRows input').forEach(inp=>{ inp.addEventListener('input',e=>{ const i=+e.target.dataset.i; const field=e.target.dataset.field; recipe.ingredients[i][field]=e.target.value; if(field==='name'||field==='pct') updateNameField(); calculate(true); }); }); document.querySelectorAll('[data-del]').forEach(btn=>{ btn.onclick=()=>{ recipe.ingredients.splice(+btn.dataset.del,1); if(recipe.ingredients.length===0) recipe.ingredients.push(emptyIngredient()); save(); render(); }; }); }
+  function updateNameField(){ const recipe=r(); if(!recipe.nameManual){ $('recipeName').value=autoName(recipe,current); $('nameHint').textContent='原材料名と割合から自動名を作成中です。'; renderTabs(); } }
+  function validIngredientOptions(recipe){ return recipe.ingredients.map((ing,i)=>({ing,i})).filter(x=>x.ing.name||x.ing.unitPrice||x.ing.pct||x.ing.qty); }
+  function renderConvertControls(){ const recipe=r(); const select=$('convertIngredientSelect'); const opts=validIngredientOptions(recipe); let currentIndex=Number.isInteger(+recipe.convertIngredientIndex)?+recipe.convertIngredientIndex:0; if(!opts.some(x=>x.i===currentIndex)) currentIndex=opts.length?opts[0].i:0; recipe.convertIngredientIndex=currentIndex; select.innerHTML=recipe.ingredients.map((ing,i)=>{ const name=(ing.name||`原材料${i+1}`).trim(); const pct=num(ing.pct); const pctText=pct?` / ${round(pct,3)}%`:' / 割合未入力'; return `<option value="${i}">${escapeHtml(`${i+1}. ${name}${pctText}`)}</option>`; }).join(''); select.value=String(recipe.convertIngredientIndex||0); if(!recipe.convertIngredientQty && recipe.ingredients[currentIndex] && recipe.ingredients[currentIndex].qty) recipe.convertIngredientQty=recipe.ingredients[currentIndex].qty; $('convertIngredientQty').value=recipe.convertIngredientQty||''; updateConvertPreview(false); }
+  function updateConvertPreview(shouldSave){ const recipe=r(); const idx=+recipe.convertIngredientIndex||0; const ing=recipe.ingredients[idx]||emptyIngredient(); const pct=num(ing.pct); const qty=num(recipe.convertIngredientQty); const total=(pct>0&&qty>0)?qty*100/pct:0; recipe.convertTargetQty=total?round(total,3):''; if($('convertTotalPreview')) $('convertTotalPreview').value=recipe.convertTargetQty; if(shouldSave) save(); return total; }
+  function setConvertFromIngredientQty(idx,qtyValue,showMessage){ const recipe=r(); recipe.convertIngredientIndex=idx; recipe.convertIngredientQty=qtyValue; updateConvertPreview(false); if($('convertIngredientSelect')) $('convertIngredientSelect').value=String(idx); if($('convertIngredientQty')) $('convertIngredientQty').value=qtyValue; const pct=num((recipe.ingredients[idx]||{}).pct); const qty=num(qtyValue); if(showMessage){ if(pct>0&&qty>0) setStatus(`${(recipe.ingredients[idx]||{}).name||'選択した原材料'} ${qty}kg を基準に、他の数量kgを割合どおり再計算しました。`); else if(qty>0) setStatus('この原材料の割合％が0のため、合計数量を逆算できません。先に割合％を入れてください。', true); } }
+  function costCalc(value,mode,totalQty){ const v=num(value); return mode==='perkg'?v*totalQty:v; }
+  function getSummary(recipe){ let totalQty=recipe.mode==='convert'?num(recipe.convertTargetQty||recipe.batchQty):num(recipe.batchQty); let pctSum=0, rawCost=0; if(recipe.mode==='qty') totalQty=recipe.ingredients.reduce((s,ing)=>s+num(ing.qty),0); recipe.ingredients.forEach(ing=>{ const qty = recipe.mode==='qty' ? num(ing.qty) : (totalQty&&num(ing.pct)?totalQty*num(ing.pct)/100:num(ing.qty)); const pct = recipe.mode==='qty' && totalQty ? qty/totalQty*100 : num(ing.pct); pctSum+=pct; rawCost+=qty*num(ing.unitPrice); }); const processingTotal=costCalc(recipe.processingCost,recipe.processingMode,totalQty); const transportTotal=costCalc(recipe.transportCost,recipe.transportMode,totalQty); const otherTotal=costCalc(recipe.otherCost,recipe.otherMode,totalQty); const totalCost=rawCost+processingTotal+transportTotal+otherTotal; const costPerKg=totalQty?totalCost/totalQty:0; const profitRate=num(recipe.profitRate); const manualSale=num(recipe.salePriceManual); let salePriceKg=0; if(manualSale>0) salePriceKg=manualSale; else if(profitRate>0) salePriceKg=recipe.profitMode==='margin'?(profitRate>=100?0:costPerKg/(1-profitRate/100)):costPerKg*(1+profitRate/100); const saleTotal=salePriceKg*totalQty; const profitTotal=saleTotal-totalCost; const actualMargin=saleTotal?profitTotal/saleTotal*100:0; return {totalQty,pctSum,rawCost,processingTotal,transportTotal,otherTotal,totalCost,costPerKg,salePriceKg,saleTotal,profitTotal,actualMargin}; }
+  function calculate(shouldSave){ const recipe=r(); const cur=recipe.currency||'€'; if(recipe.mode==='convert') updateConvertPreview(false); let totalQty=recipe.mode==='convert'?num(recipe.convertTargetQty||recipe.batchQty):num(recipe.batchQty); let pctSum=0, rawCost=0; if(recipe.mode==='qty'){ totalQty=recipe.ingredients.reduce((s,ing)=>s+num(ing.qty),0); recipe.batchQty=totalQty?round(totalQty,3):''; $('batchQty').value=recipe.batchQty; } recipe.ingredients.forEach((ing,i)=>{ if(recipe.mode==='qty'){ const qty=num(ing.qty); const pct=totalQty?qty/totalQty*100:0; ing.pct=pct?round(pct,3):''; pctSum+=pct; const pctInput=document.querySelector(`input[data-field="pct"][data-i="${i}"]`); if(pctInput) pctInput.value=ing.pct; }else{ const pct=num(ing.pct); pctSum+=pct; const qty=totalQty&&pct?totalQty*pct/100:0; ing.qty=qty?round(qty,3):''; const qtyInput=document.querySelector(`input[data-field="qty"][data-i="${i}"]`); if(qtyInput) qtyInput.value=ing.qty; } const cost=num(ing.qty)*num(ing.unitPrice); rawCost+=cost; const cell=$(`cost-${i}`); if(cell) cell.textContent=money(cost,cur); }); const s=getSummary(recipe); $('sumQty').textContent=`${round(s.totalQty,3)||'0'} kg`; $('sumPct').textContent=`${round(s.pctSum,3)||'0'} %`; $('rawCost').textContent=money(s.rawCost,cur); $('processingTotal').textContent=money(s.processingTotal,cur); $('transportTotal').textContent=money(s.transportTotal,cur); $('otherTotal').textContent=money(s.otherTotal,cur); $('totalCost').textContent=money(s.totalCost,cur); $('costPerKg').textContent=money(s.costPerKg,cur); $('salePriceKg').textContent=money(s.salePriceKg,cur); $('saleTotal').textContent=money(s.saleTotal,cur); $('profitTotal').textContent=money(s.profitTotal,cur); $('actualMargin').textContent=`${round(s.actualMargin,2)||'0'} %`; $('ingredientLabel').value=makeIngredientLabel(recipe); const warn=$('percentWarning'); if(recipe.mode!=='qty' && Math.abs(s.pctSum-100)>0.01 && s.pctSum>0){ warn.classList.remove('hidden'); warn.textContent=`割合合計が100%ではありません。現在 ${round(s.pctSum,3)}% です。`; }else{ warn.classList.add('hidden'); warn.textContent=''; } if(shouldSave) save(); }
+  function makeIngredientLabel(recipe){ const arr=recipe.ingredients.filter(x=>(x.name||'').trim()).map(x=>{ const pct=num(x.pct); return pct?`${x.name.trim()} ${round(pct,2)}%`:x.name.trim(); }); return arr.join('、'); }
+  function modeLabel(mode){ return mode==='percent'?'割合→数量':mode==='qty'?'数量→割合':'既存割合→数量変換'; }
+  function profitModeLabel(mode){ return mode==='margin'?'粗利率：売価に対する利益':'原価上乗せ率：原価に対する利益'; }
+  function makeCsvForRecipe(recipe,idx){ const name=recipeName(recipe,idx); const s=getSummary(recipe); const rows=[['レシピ番号',`R${idx+1}`],['レシピ名',name],['モード',modeLabel(recipe.mode)],['メモ',recipe.memo||''],['合計数量kg',round(s.totalQty,3)||'0'],['基準原材料番号',Number(recipe.convertIngredientIndex||0)+1],['基準原材料数量kg',recipe.convertIngredientQty||''],['換算後合計数量kg',recipe.convertTargetQty||''],['割合合計%',round(s.pctSum,3)||'0'],['原材料費合計',round(s.rawCost,2)||'0'],['加工費合計',round(s.processingTotal,2)||'0'],['運送費合計',round(s.transportTotal,2)||'0'],['その他費用合計',round(s.otherTotal,2)||'0'],['総原価',round(s.totalCost,2)||'0'],['1kgあたり原価',round(s.costPerKg,2)||'0'],['利益率%',recipe.profitRate||''],['利益率計算方法',profitModeLabel(recipe.profitMode)],['推奨販売価格/kg',round(s.salePriceKg,2)||'0'],['販売金額合計',round(s.saleTotal,2)||'0'],['利益合計',round(s.profitTotal,2)||'0'],['実質粗利率%',round(s.actualMargin,2)||'0'],[],['原材料名','単価/kg','割合%','数量kg','原材料費']]; recipe.ingredients.filter(x=>x.name||x.unitPrice||x.pct||x.qty).forEach(x=>rows.push([x.name,x.unitPrice,x.pct,x.qty,round(num(x.qty)*num(x.unitPrice),2)||'0'])); return rows; }
+  function makeAllCsv(){ const rows=[]; recipes.forEach((recipe,idx)=>{ if(idx>0) rows.push([],[]); rows.push(...makeCsvForRecipe(recipe,idx)); }); return toCsv(rows); }
+  function toCsv(rows){ return '\uFEFF'+rows.map(row=>row.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\r\n'); }
+  function showTextBox(label,text,filename='',type='text/plain;charset=utf-8'){ shownPayload={text,filename,type}; $('backupLabel').textContent=label; $('backupText').value=text; $('backupBox').classList.remove('hidden'); }
+  async function saveFile(text,filename,type){ try{ const blob=new Blob([text],{type}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=filename; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),3000); setStatus(`${filename} の保存処理を開始しました。ファイルが出ない場合は、下の表示内容をコピーして保存してください。`); return true; }catch(e){ setStatus('ファイル保存できない場合は、下の表示内容をコピーしてメモ・メール等に保存してください。',false); $('backupBox').classList.remove('hidden'); return false; } }
+  async function copyText(text,successMsg){ try{ await navigator.clipboard.writeText(text); setStatus(successMsg); }catch(e){ const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); setStatus(successMsg); } }
+  function deepClone(obj){ return JSON.parse(JSON.stringify(obj)); }
+  function setMode(mode){ r().mode=mode; save(); render(); }
+  $('modePercent').onclick=()=>setMode('percent'); $('modeQty').onclick=()=>setMode('qty'); $('modeConvert').onclick=()=>setMode('convert');
+  ['batchQty','processingCost','processingMode','transportCost','transportMode','otherCost','otherMode','currency','profitRate','profitMode','salePriceManual','memo'].forEach(id=>{ $(id).addEventListener('input',e=>{ r()[id]=e.target.value; calculate(true); }); $(id).addEventListener('change',e=>{ r()[id]=e.target.value; calculate(true); }); });
+  $('recipeName').addEventListener('input',e=>{ r().nameManual=true; r().manualName=e.target.value; $('nameHint').textContent='手入力名を使用中です。'; save(); renderTabs(); });
+  $('autoNameBtn').onclick=()=>{ r().nameManual=false; r().manualName=''; save(); render(); };
+  $('addRowBtn').onclick=()=>{ r().ingredients.push(emptyIngredient()); save(); render(); };
+  $('clearRecipeBtn').onclick=()=>{ if(!confirm('このレシピの入力内容をクリアしますか？')) return; recipes[current]=emptyRecipe(current); save(); render(); setStatus('このレシピをクリアしました。'); };
+  $('copyToAllBtn').onclick=()=>{ const targetValue=$('copyTargetSelect')?$('copyTargetSelect').value:'all'; const targets=targetValue==='all'?Array.from({length:recipeCount-1},(_,i)=>i+1):[Number(targetValue)]; const targetLabel=targetValue==='all'?'レシピ2〜6すべて':`レシピ${Number(targetValue)+1}`; if(!confirm(`レシピ1の内容を${targetLabel}へコピーしますか？\nコピー先の内容は上書きされます。`)) return; const base=deepClone(recipes[0]); targets.forEach(i=>{ recipes[i]=normalizeRecipe(deepClone(base),i); if(base.nameManual&&base.manualName){ recipes[i].manualName=`${base.manualName} コピー${i+1}`; recipes[i].nameManual=true; } }); current=targetValue==='all'?1:Number(targetValue); save(); render(); setStatus(`レシピ1を${targetLabel}へコピーしました。`); };
+  $('copyLabelBtn').onclick=()=>copyText($('ingredientLabel').value,'原材料表示をコピーしました。'); $('copyBackupBtn').onclick=()=>copyText($('backupText').value,'表示内容をコピーしました。'); $('saveShownBtn').onclick=()=>{ if(!shownPayload||!shownPayload.text){ setStatus('保存する表示内容がありません。',true); return; } saveFile(shownPayload.text,shownPayload.filename||'ingredient_app_text.txt',shownPayload.type||'text/plain;charset=utf-8'); }; $('hideBackupBtn').onclick=()=>$('backupBox').classList.add('hidden');
+  $('convertIngredientSelect').addEventListener('change',e=>{ const idx=+e.target.value||0; const recipe=r(); recipe.convertIngredientIndex=idx; recipe.convertIngredientQty=(recipe.ingredients[idx]||{}).qty||''; setConvertFromIngredientQty(idx,recipe.convertIngredientQty,false); calculate(true); });
+  $('convertIngredientQty').addEventListener('input',e=>{ setConvertFromIngredientQty(+r().convertIngredientIndex||0,e.target.value,true); calculate(true); });
+  $('convertIngredientQty').addEventListener('change',e=>{ setConvertFromIngredientQty(+r().convertIngredientIndex||0,e.target.value,true); calculate(true); });
+  function buildBackup(){ return {app:'ingredient-cost-app',version:27,savedAt:new Date().toISOString(),recipes}; }
+  $('exportCsvBtn').onclick=async()=>{ calculate(true); const csv=toCsv(makeCsvForRecipe(r(),current)); showTextBox('CSV内容（ダウンロードできない場合はコピーして保存）',csv.replace(/^\uFEFF/,''),`ingredient_recipe_R${current+1}.csv`,'text/csv;charset=utf-8'); await saveFile(csv,`ingredient_recipe_R${current+1}.csv`,'text/csv;charset=utf-8'); };
+  $('exportAllCsvBtn').onclick=async()=>{ calculate(true); const csv=makeAllCsv(); showTextBox('全レシピCSV内容（ダウンロードできない場合はコピーして保存）',csv.replace(/^\uFEFF/,''),'ingredient_recipes_all.csv','text/csv;charset=utf-8'); await saveFile(csv,'ingredient_recipes_all.csv','text/csv;charset=utf-8'); };
+  $('downloadJsonBtn').onclick=async()=>{ save(); const text=JSON.stringify(buildBackup(),null,2); showTextBox('バックアップコード（ダウンロードできない場合はコピーして保存）',text,'ingredient_app_backup_v27.json','application/json;charset=utf-8'); await saveFile(text,'ingredient_app_backup_v27.json','application/json;charset=utf-8'); };
+  $('importJsonInput').addEventListener('change',e=>{ const file=e.target.files[0]; if(!file) return; const reader=new FileReader(); reader.onload=()=>{ try{ const data=JSON.parse(reader.result); const arr=Array.isArray(data)?data:data.recipes; if(!Array.isArray(arr)) throw new Error('形式が違います'); recipes=Array.from({length:recipeCount},(_,i)=>normalizeRecipe(arr[i],i)); current=0; save(); render(); setStatus('バックアップを読み込みました。'); }catch(err){ alert('読み込めませんでした。JSON形式を確認してください。'); setStatus('バックアップ読込に失敗しました。',true); } e.target.value=''; }; reader.readAsText(file); });
   render(); save();
 })();
 </script>
-
 <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () {
-      navigator.serviceWorker.register('./sw.js?v=26').then(function(reg){ reg.update(); }).catch(function () {});
-    });
-  }
+  if('serviceWorker' in navigator){ window.addEventListener('load',function(){ navigator.serviceWorker.register('./sw.js?v=27-copy-select').then(function(reg){ reg.update(); }).catch(function(){}); }); }
 </script>
 </body>
 </html>
